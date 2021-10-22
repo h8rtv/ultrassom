@@ -117,6 +117,21 @@ Eigen::VectorXd cgnr(const Eigen::VectorXd& g, const Eigen::MatrixXd& H) {
   return f;
 }
 
+void plot(const Eigen::VectorXd& image) {
+  std::ofstream image_file("out/image.pgm");
+  image_file << "P2" << '\n' << 60 << ' ' << 60 << '\n' << "255" << '\n';
+ 
+  for (auto j = 0u; j < 60; j++) {
+      for (auto i = 0u; i < 60; i++) {
+        unsigned int pixel = (unsigned int) image(60 * i + j);
+        image_file << pixel << " ";
+      }
+      image_file << "\n";
+  }
+ 
+  image_file.close();
+}
+
 Eigen::VectorXd cgne(const Eigen::VectorXd& g, const Eigen::MatrixXd& H) {
   Eigen::VectorXd f = Eigen::VectorXd::Zero(H.cols());
   Eigen::VectorXd r = g - H * f;
@@ -160,7 +175,7 @@ double regularization_coefficient(const Eigen::VectorXd& g, const Eigen::MatrixX
 int main() {
   std::cout << "Parsing g:" << std::endl;
   auto finished1 = time_it();
-  Eigen::VectorXd g = CSVFileToMatrixParser("data/g-1.txt").parse();
+  Eigen::VectorXd g = CSVFileToMatrixParser("data/g-3.txt").parse();
   finished1();
   std::cout << "Done!" << std::endl;
 
@@ -172,11 +187,13 @@ int main() {
 
   std::cout << "Computing CGNR:" << std::endl;
   auto finished5 = time_it();
-  Eigen::VectorXd f = cgne(g, H);
+  Eigen::VectorXd f = cgnr(g, H);
+  f = (f.array() - f.minCoeff()) * 255/(f.maxCoeff() - f.minCoeff());
   finished5();
   std::cout << "Done!" << std::endl;
-
   std::cout << f.minCoeff() << " " << f.maxCoeff() << std::endl;
+
+  plot(f);
 
   std::cout << "Writing aprox g:" << std::endl;
   auto finished6 = time_it();
@@ -184,6 +201,7 @@ int main() {
   std::ofstream aprox_g_file("out/aprox_g.txt");
   aprox_g_file << aprox_g << std::endl;
   finished6();
+  aprox_g_file.close();
   std::cout << "Done!" << std::endl;
 
   std::cout << "Writing output:" << std::endl;
@@ -191,5 +209,6 @@ int main() {
   std::ofstream image_file("out/image.txt");
   image_file << f << std::endl;
   finished7();
+  image_file.close();
   std::cout << "Done!" << std::endl;
 }
