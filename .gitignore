@@ -2,3 +2,4 @@ teste-eigen
 out/**
 .vscode
 data/** 
+!data/.gitkeep
