@@ -99,18 +99,19 @@ Eigen::VectorXd cgnr(const Eigen::VectorXd& g, const Eigen::MatrixXd& H) {
   Eigen::VectorXd r = g - H * f;
   Eigen::VectorXd z = H.transpose() * r;
   Eigen::VectorXd p = z;
+  double r_old_norm = r.norm();
   for (int i = 0; i < g.size(); i++) {
     auto w = H * p;
     double z_norm = std::pow(z.norm(), 2);
     double alpha =  z_norm / std::pow(w.norm(), 2);
-    f = f + alpha * p;
-    double error = r.norm();
     r = r - alpha * w;
-    error = error - r.norm();
+    double error = std::abs(r.norm() - r_old_norm);
     if (error < 1e-4) break;
+    f = f + alpha * p;
     z = H.transpose() * r;
     double beta = std::pow(z.norm(), 2) / z_norm;
     p = z + beta * p;
+    r_old_norm = r.norm();
   }
 
   return f;
@@ -154,10 +155,18 @@ int main() {
 
   std::cout << f.minCoeff() << " " << f.maxCoeff() << std::endl;
 
-  std::cout << "Writing output:" << std::endl;
+  std::cout << "Writing aprox g:" << std::endl;
   auto finished6 = time_it();
-  std::ofstream output("out/image.txt");
-  output << f << std::endl;
+  auto aprox_g = H * f;
+  std::ofstream aprox_g_file("out/aprox_g.txt");
+  aprox_g_file << aprox_g << std::endl;
   finished6();
+  std::cout << "Done!" << std::endl;
+
+  std::cout << "Writing output:" << std::endl;
+  auto finished7 = time_it();
+  std::ofstream image_file("out/image.txt");
+  image_file << f << std::endl;
+  finished7();
   std::cout << "Done!" << std::endl;
 }
