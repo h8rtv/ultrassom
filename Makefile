@@ -1,4 +1,4 @@
-VENDOR=vendor/eigen-3.4.0
+VENDOR=vendor/eigen
 
 all: compile run
 
