@@ -4,71 +4,7 @@
 #include <fstream>
 #include <string>
 #include <Eigen/Dense>
-
-template<class ParseResult>
-class Parser {
-public:
-  virtual ParseResult parse() = 0;
-};
-
-class CSVToMatrixParser : public Parser<Eigen::MatrixXd> {
-private:
-  std::istream& file;
-  char separator;
-
-  int getColumns() {
-    std::string line;
-    std::getline(file, line);
-    size_t x = std::count(line.begin(), line.end(), separator) + 1;
-    file.seekg(0, std::ios::beg);
-    return x;
-  }
-
-  int getRows() {
-    std::istreambuf_iterator<char> it_file_start(file);
-    std::istreambuf_iterator<char> it_file_end;
-    size_t y = std::count(it_file_start, it_file_end, '\n');
-    file.seekg(0, std::ios::beg);
-    return y;
-  }
-
-public:
-  CSVToMatrixParser(std::istream& file, char separator = ','): file(file), separator(separator) {}
-
-  Eigen::MatrixXd parse() {
-    Eigen::MatrixXd m(getRows(), getColumns());
-    int row = 0;
-    for (std::string line; std::getline(file, line); row++) {
-      std::string number;
-      int col = 0;
-      for (char& c: line) {
-        if (c == separator)  {
-          m(row, col++) = std::stod(number);
-          number = "";
-        } else {
-          number += c;
-        }
-      }
-      m(row, col++) = std::stod(number);
-    }
-
-    return m;
-  }
-};
-
-class CSVFileToMatrixParser: public Parser<Eigen::MatrixXd> {
-private:
-  const std::string& filename;
-  std::ifstream file;
-
-public:
-  CSVFileToMatrixParser(const std::string& filename): filename(filename), file(filename) {};
-  Eigen::MatrixXd parse() {
-    CSVToMatrixParser parser(file);
-    Eigen::MatrixXd m = parser.parse();
-    return m;
-  }
-};
+#include "Parser/CSVParser.hpp"
 
 void test() {
   Eigen::MatrixXd a = CSVFileToMatrixParser("data/a.csv").parse();
@@ -120,7 +56,7 @@ Eigen::VectorXd cgnr(const Eigen::VectorXd& g, const Eigen::MatrixXd& H) {
 void plot(const Eigen::VectorXd& image) {
   std::ofstream image_file("out/image.pgm");
   image_file << "P2" << '\n' << 60 << ' ' << 60 << '\n' << "255" << '\n';
- 
+
   for (auto j = 0u; j < 60; j++) {
       for (auto i = 0u; i < 60; i++) {
         unsigned int pixel = (unsigned int) image(60 * i + j);
@@ -128,7 +64,7 @@ void plot(const Eigen::VectorXd& image) {
       }
       image_file << "\n";
   }
- 
+
   image_file.close();
 }
 
