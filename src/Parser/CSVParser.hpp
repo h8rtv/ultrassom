@@ -1,39 +1,38 @@
-#include <functional>
+#pragma once
+
 #include <iostream>
-#include <fstream>
-#include <string>
 #include <Eigen/Dense>
 
-#include "Parser.hpp"
+#include "IParser.hpp"
 
-class CSVToMatrixParser : public Parser<Eigen::MatrixXd> {
+class CSVToMatrixParser : public IParser<Eigen::MatrixXd> {
 private:
-  std::istream& file;
+  std::istream& input_stream;
   char separator;
 
-  int getColumns() {
+  int get_columns() {
     std::string line;
-    std::getline(file, line);
+    std::getline(input_stream, line);
     size_t x = std::count(line.begin(), line.end(), separator) + 1;
-    file.seekg(0, std::ios::beg);
+    input_stream.seekg(0, std::ios::beg);
     return x;
   }
 
-  int getRows() {
-    std::istreambuf_iterator<char> it_file_start(file);
+  int get_rows() {
+    std::istreambuf_iterator<char> it_file_start(input_stream);
     std::istreambuf_iterator<char> it_file_end;
     size_t y = std::count(it_file_start, it_file_end, '\n');
-    file.seekg(0, std::ios::beg);
+    input_stream.seekg(0, std::ios::beg);
     return y;
   }
 
 public:
-  CSVToMatrixParser(std::istream& file, char separator = ','): file(file), separator(separator) {}
+  CSVToMatrixParser(std::istream& input_stream, char separator = ','): input_stream(input_stream), separator(separator) {}
 
   Eigen::MatrixXd parse() {
-    Eigen::MatrixXd m(getRows(), getColumns());
+    Eigen::MatrixXd m(get_rows(), get_columns());
     int row = 0;
-    for (std::string line; std::getline(file, line); row++) {
+    for (std::string line; std::getline(input_stream, line); row++) {
       std::string number;
       int col = 0;
       for (char& c: line) {
@@ -47,20 +46,6 @@ public:
       m(row, col++) = std::stod(number);
     }
 
-    return m;
-  }
-};
-
-class CSVFileToMatrixParser: public Parser<Eigen::MatrixXd> {
-private:
-  const std::string& filename;
-  std::ifstream file;
-
-public:
-  CSVFileToMatrixParser(const std::string& filename): filename(filename), file(filename) {};
-  Eigen::MatrixXd parse() {
-    CSVToMatrixParser parser(file);
-    Eigen::MatrixXd m = parser.parse();
     return m;
   }
 };

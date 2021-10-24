@@ -1,10 +1,12 @@
 #include <chrono>
-#include <functional>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <Eigen/Dense>
-#include "Parser/CSVParser.hpp"
+
+#include "Parser/CSVFileParser.hpp"
+#include "Algorithm/CGNESolver.hpp"
+#include "Algorithm/CGNRSolver.hpp"
 
 void test() {
   Eigen::MatrixXd a = CSVFileToMatrixParser("data/a.csv").parse();
@@ -30,29 +32,6 @@ void test() {
   assert(aM.isApprox(aM_answer, 0.0001));
 }
 
-Eigen::VectorXd cgnr(const Eigen::VectorXd& g, const Eigen::MatrixXd& H) {
-  Eigen::VectorXd f = Eigen::VectorXd::Zero(H.cols());
-  Eigen::VectorXd r = g - H * f;
-  Eigen::VectorXd z = H.transpose() * r;
-  Eigen::VectorXd p = z;
-  double r_old_norm = r.norm();
-  for (int i = 0; i < g.size(); i++) {
-    auto w = H * p;
-    double z_norm = std::pow(z.norm(), 2);
-    double alpha =  z_norm / std::pow(w.norm(), 2);
-    r = r - alpha * w;
-    double error = std::abs(r.norm() - r_old_norm);
-    if (error < 1e-4) break;
-    f = f + alpha * p;
-    z = H.transpose() * r;
-    double beta = std::pow(z.norm(), 2) / z_norm;
-    p = z + beta * p;
-    r_old_norm = r.norm();
-  }
-
-  return f;
-}
-
 void plot(const Eigen::VectorXd& image) {
   std::ofstream image_file("out/image.pgm");
   image_file << "P2" << '\n' << 60 << ' ' << 60 << '\n' << "255" << '\n';
@@ -66,29 +45,6 @@ void plot(const Eigen::VectorXd& image) {
   }
 
   image_file.close();
-}
-
-Eigen::VectorXd cgne(const Eigen::VectorXd& g, const Eigen::MatrixXd& H) {
-  Eigen::VectorXd f = Eigen::VectorXd::Zero(H.cols());
-  Eigen::VectorXd r = g - H * f;
-  Eigen::VectorXd p = H.transpose() * r;
-  double r_old_norm = r.norm();
-  for (int i = 0; i < g.size(); i++) {
-    double alpha_num = r.transpose() * r;
-    double alpha_den = p.transpose() * p;
-    double alpha = alpha_num / alpha_den;
-    r = r - alpha * H * p;
-    double error = std::abs(r.norm() - r_old_norm);
-    if (error < 1e-4) break;
-    f = f + alpha * p;
-    double beta_num = r.transpose() * r;
-    double& beta_den = alpha_num;
-    double beta = beta_num / beta_den;
-    p = H.transpose() * r + beta * p;
-    r_old_norm = r.norm();
-  }
-
-  return f;
 }
 
 std::function<void()> time_it() {
@@ -123,7 +79,8 @@ int main() {
 
   std::cout << "Computing CGNR:" << std::endl;
   auto finished5 = time_it();
-  Eigen::VectorXd f = cgnr(g, H);
+  CGNESolver solver;
+  Eigen::VectorXd f = solver.solve(g, H);
   f = (f.array() - f.minCoeff()) * 255/(f.maxCoeff() - f.minCoeff());
   finished5();
   std::cout << "Done!" << std::endl;

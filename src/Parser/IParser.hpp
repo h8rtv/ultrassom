@@ -1,5 +1,7 @@
+#pragma once 
+
 template<class ParseResult>
-class Parser {
+class IParser {
 public:
   virtual ParseResult parse() = 0;
 };
