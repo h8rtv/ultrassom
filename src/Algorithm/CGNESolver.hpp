@@ -9,7 +9,7 @@ public:
     Eigen::VectorXd r = g - H * f;
     Eigen::VectorXd p = H.transpose() * r;
     double r_old_norm = r.norm();
-    for (int i = 0; i < g.size(); i++) {
+    for (int i = 0; i < 20; i++) {
       double alpha_num = r.transpose() * r;
       double alpha_den = p.transpose() * p;
       double alpha = alpha_num / alpha_den;
@@ -18,7 +18,7 @@ public:
       if (error < 1e-4) break;
       f = f + alpha * p;
       double beta_num = r.transpose() * r;
-      double& beta_den = alpha_num;
+      const double& beta_den = alpha_num;
       double beta = beta_num / beta_den;
       p = H.transpose() * r + beta * p;
       r_old_norm = r.norm();

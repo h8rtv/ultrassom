@@ -79,7 +79,7 @@ int main() {
 
   std::cout << "Computing CGNR:" << std::endl;
   auto finished5 = time_it();
-  CGNESolver solver;
+  CGNRSolver solver;
   Eigen::VectorXd f = solver.solve(g, H);
   f = (f.array() - f.minCoeff()) * 255/(f.maxCoeff() - f.minCoeff());
   finished5();

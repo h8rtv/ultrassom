@@ -10,7 +10,7 @@ public:
     Eigen::VectorXd z = H.transpose() * r;
     Eigen::VectorXd p = z;
     double r_old_norm = r.norm();
-    for (int i = 0; i < g.size(); i++) {
+    for (int i = 0; i < 20; i++) {
       auto w = H * p;
       double z_norm = std::pow(z.norm(), 2);
       double alpha =  z_norm / std::pow(w.norm(), 2);
