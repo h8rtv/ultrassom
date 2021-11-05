@@ -1,6 +1,7 @@
-teste-eigen
+ultrassom
 out/**
 .vscode
 data/** 
 !data/.gitkeep
 !out/.gitkeep
+build

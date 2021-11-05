@@ -6,6 +6,8 @@
 #include <string_view>
 #include <filesystem>
 
+#include <Eigen/Dense>
+
 #include "IParser.hpp"
 
 class CSVFileToMatrixParser: public IParser<Eigen::MatrixXd> {
