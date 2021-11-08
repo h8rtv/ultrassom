@@ -71,7 +71,7 @@ double regularization_coefficient(const Eigen::VectorXd& g, const Eigen::MatrixX
 int main() {
   std::cout << "Parsing g:" << std::endl;
   auto finished1 = time_it();
-  Eigen::VectorXd g = CSVFileToMatrixParser("data/g-3.txt").parse();
+  Eigen::VectorXd g = CSVFileToMatrixParser("data/g-1.txt").parse();
   finished1();
   std::cout << "Done!" << std::endl;
 
@@ -88,7 +88,6 @@ int main() {
   f = (f.array() - f.minCoeff()) * 255/(f.maxCoeff() - f.minCoeff());
   finished5();
   std::cout << "Done!" << std::endl;
-  std::cout << f.minCoeff() << " " << f.maxCoeff() << std::endl;
 
   plot(f);
 

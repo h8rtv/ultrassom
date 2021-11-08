@@ -1,7 +1,8 @@
 #pragma once
 
 #include <fstream>
-#include <charconv>
+#include <algorithm>
+#include <execution>
 #include <string>
 #include <string_view>
 #include <filesystem>
@@ -70,27 +71,28 @@ public:
     file.close();
   }
 
+  void parse_line(Eigen::MatrixXd& m, std::string_view line, size_t line_number) {
+    std::vector<std::string_view> columns = split_string(line, separator);
+    for (size_t j = 0; j < columns.size(); ++j) {
+      m(line_number, j) = std::stod(std::string(columns[j]));
+    }
+  }
+
   [[nodiscard]]
   Eigen::MatrixXd parse() {
     Eigen::MatrixXd m(get_rows(), get_columns());
     std::string file_content = get_file_content();
     std::vector<std::string_view> lines = split_string(file_content, '\n');
-    // TODO: tentar paralelizar isso aqui
-    for (size_t i = 0; i < lines.size(); ++i) {
-      std::vector<std::string_view> columns = split_string(lines[i], separator);
-      for (size_t j = 0; j < columns.size(); ++j) {
-        // LOL, lento pra krl no gcc 11 hahahahahah
-        // https://www.reddit.com/r/cpp/comments/na7tut/why_is_stdfrom_charsfloat_slow/
-        // TODO: testar no MSVC que aparentemente otimiza essa operação
-        // https://youtu.be/4P_kbF0EbZM
-        // auto sv = columns[j];
-        // double value;
-        // const auto last = sv.data() + sv.size();
-        // const auto res = std::from_chars(sv.data(), last, value);
-        // Por hora vou criar string temporária, é rápido	o suficiente
-        m(i, j) = std::stod(std::string(columns[j]));
+    std::vector<int> v(lines.size());
+    std::iota(std::begin(v), std::end(v), 0);
+    std::for_each(
+      std::execution::par_unseq,
+      std::begin(v),
+      std::end(v),
+      [&](int i) {
+        parse_line(m, lines[i], i);
       }
-    }
+    );
 
     return m;
   }
