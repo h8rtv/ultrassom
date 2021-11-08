@@ -10,6 +10,8 @@ A pasta "data" vocês têm que baixar no PC de vocês lá do moodle, muito pesad
   - Conan
 
 ```sh
+# Para fazer funcionar o Magick++, ele precisa usar a libstdc++11 ao invés de libstdc++
+conan profile update settings.compiler.libcxx=libstdc++11 default
 mkdir build && cd build
 conan install ..
 # Especifica o gerador (Unix Makefiles ou Visual Studio 16)

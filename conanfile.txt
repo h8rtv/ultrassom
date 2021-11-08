@@ -1,5 +1,6 @@
 [requires]
 eigen/3.4.0
+imagemagick/7.0.11-14
 
 [generators]
 cmake

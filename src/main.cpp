@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <Eigen/Dense>
+#include <Magick++.h>
 
 #include "Parser/CSVFileParser.hpp"
 #include "Algorithm/CGNESolver.hpp"
@@ -45,6 +46,9 @@ void plot(const Eigen::VectorXd& image) {
   }
 
   image_file.close();
+  Magick::Image image_magick;
+  image_magick.read("out/image.pgm");
+  image_magick.write("out/image.png");
 }
 
 std::function<void()> time_it() {
