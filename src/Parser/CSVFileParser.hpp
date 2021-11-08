@@ -61,6 +61,13 @@ private:
     return output;
   }
 
+  void parse_line(Eigen::MatrixXd& m, std::string_view line, size_t line_number) {
+    std::vector<std::string_view> columns = split_string(line, separator);
+    for (size_t j = 0; j < columns.size(); ++j) {
+      m(line_number, j) = std::stod(std::string(columns[j]));
+    }
+  }
+
 public:
   CSVFileToMatrixParser(const std::filesystem::path& file_path, char separator = ',')
   : file_path(file_path),
@@ -69,13 +76,6 @@ public:
 
   ~CSVFileToMatrixParser() {
     file.close();
-  }
-
-  void parse_line(Eigen::MatrixXd& m, std::string_view line, size_t line_number) {
-    std::vector<std::string_view> columns = split_string(line, separator);
-    for (size_t j = 0; j < columns.size(); ++j) {
-      m(line_number, j) = std::stod(std::string(columns[j]));
-    }
   }
 
   [[nodiscard]]

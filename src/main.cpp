@@ -2,7 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
 #include <Eigen/Dense>
+#include <Eigen/Core>
 #include <Magick++.h>
 
 #include "Parser/CSVFileParser.hpp"
@@ -69,6 +71,7 @@ double regularization_coefficient(const Eigen::VectorXd& g, const Eigen::MatrixX
 }
 
 int main() {
+  Eigen::initParallel();
   std::cout << "Parsing g:" << std::endl;
   auto finished1 = time_it();
   Eigen::VectorXd g = CSVFileToMatrixParser("data/g-1.txt").parse();
