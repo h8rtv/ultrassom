@@ -61,11 +61,38 @@ private:
     return output;
   }
 
-  void parse_line(Eigen::MatrixXd& m, std::string_view line, size_t line_number) {
+  [[nodiscard]]
+  std::vector<std::pair<size_t, std::string_view>> get_indexed_lines(const std::vector<std::string_view>& lines) {
+    std::vector<std::pair<size_t, std::string_view>> indexed_lines;
+    indexed_lines.reserve(lines.size());
+    std::transform(
+      lines.begin(),
+      lines.end(),
+      std::back_inserter(indexed_lines),
+      [n = 0] (std::string_view line) mutable {
+        return std::make_pair(n++, line);
+      }
+    );
+    return indexed_lines;
+  }
+
+  inline void parse_line(Eigen::MatrixXd& m, std::string_view line, size_t line_number) {
     std::vector<std::string_view> columns = split_string(line, separator);
     for (size_t j = 0; j < columns.size(); ++j) {
       m(line_number, j) = std::stod(std::string(columns[j]));
     }
+  }
+
+  void parallel_parse_lines(Eigen::MatrixXd& m, std::vector<std::pair<size_t, std::string_view>> indexed_lines) {
+    std::for_each(
+      std::execution::par_unseq,
+      std::begin(indexed_lines),
+      std::end(indexed_lines),
+      [&](std::pair<size_t, std::string_view> pair) {
+        auto [i, line] = pair;
+        parse_line(m, line, i);
+      }
+    );
   }
 
 public:
@@ -83,16 +110,8 @@ public:
     Eigen::MatrixXd m(get_rows(), get_columns());
     std::string file_content = get_file_content();
     std::vector<std::string_view> lines = split_string(file_content, '\n');
-    std::vector<int> v(lines.size());
-    std::iota(std::begin(v), std::end(v), 0);
-    std::for_each(
-      std::execution::par_unseq,
-      std::begin(v),
-      std::end(v),
-      [&](int i) {
-        parse_line(m, lines[i], i);
-      }
-    );
+    std::vector<std::pair<size_t, std::string_view>> indexed_lines = get_indexed_lines(lines);
+    parallel_parse_lines(m, indexed_lines);
 
     return m;
   }
