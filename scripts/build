@@ -1,0 +1,4 @@
+#! /bin/sh
+
+cmake --build build
+cp build/bin/ultrassom .

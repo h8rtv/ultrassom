@@ -40,4 +40,5 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
  - [x] Gerar um relatório com custo de memória e tempo
  - [ ] Gerar uma saída mais profissional
  - [ ] Fazer servidor
+ - [ ] Testar com a nova matriz modelo H
 

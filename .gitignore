@@ -4,4 +4,4 @@ out/**
 data/** 
 !data/.gitkeep
 !out/.gitkeep
-build
+/build
