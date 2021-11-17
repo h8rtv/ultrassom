@@ -70,19 +70,38 @@ double regularization_coefficient(const Eigen::VectorXd& g, const Eigen::MatrixX
   return (H.transpose() * g).cwiseAbs().maxCoeff();
 }
 
+void signal_gain(Eigen::VectorXd& g) {
+  uint N = 64;
+  uint S = 794;
+  for (uint c = 0; c < N; c++) {
+    for (uint l = 0; l < S; l++) {
+      uint y = 100 + 1 / 20 * (l + 1) * sqrt(l + 1);
+      uint index = l + S * c;
+      g(index) = g(index) * y;
+    }
+  }
+}
+
 int main() {
   Eigen::initParallel();
   std::cout << "Parsing g:" << std::endl;
   auto finished1 = time_it();
-  Eigen::VectorXd g = CSVFileToMatrixParser("data/g-1.txt").parse();
+  Eigen::VectorXd g = CSVFileToMatrixParser("data/G-2.csv").parse();
   finished1();
   std::cout << "Done!" << std::endl;
 
   std::cout << "Parsing H:" << std::endl;
+  auto finished8 = time_it();
+  Eigen::MatrixXd H = CSVFileToMatrixParser("data/H-1.csv").parse();
+  finished8();
+  std::cout << "Done!" << std::endl;
+
+  std::cout << "Computing signal gain:" << std::endl;
   auto finished2 = time_it();
-  Eigen::MatrixXd H = CSVFileToMatrixParser("data/H-1.txt").parse();
+  signal_gain(g);
   finished2();
   std::cout << "Done!" << std::endl;
+
 
   std::cout << "Computing CGNR:" << std::endl;
   auto finished5 = time_it();
