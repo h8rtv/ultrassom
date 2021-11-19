@@ -4,14 +4,9 @@
 #include <oatpp/core/macro/codegen.hpp>
 #include <oatpp/core/macro/component.hpp>
 
-#include <oatpp/web/mime/multipart/FileStreamProvider.hpp>
-#include <oatpp/web/mime/multipart/Reader.hpp>
-#include <oatpp/web/mime/multipart/PartList.hpp>
+#include "Dto/RegisterImage.hpp"
 
-#include "../Dto/RegisterImage.hpp"
-#include "../Dto/Images.hpp"
-
-namespace multipart = oatpp::web::mime::multipart;
+#include "Service/ImageService.hpp"
 
 #include OATPP_CODEGEN_BEGIN(ApiController) //<-- Begin Codegen
 
@@ -27,19 +22,21 @@ public:
   Ultrasound(OATPP_COMPONENT(std::shared_ptr<ObjectMapper>, objectMapper))
     : oatpp::web::server::api::ApiController(objectMapper)
   {}
+private:
+  ImageService imageService;
 public:
   
   ENDPOINT("GET", "/users/{username}/images", getImagesByUser,
            PATH(String, username, "username"))
   {
     OATPP_LOGD("Test", "username=%s", username->getData());
-    auto images = Images::createShared();
-    return createDtoResponse(Status::CODE_200, images);
+    return createResponse(Status::CODE_200, "OK");
   }
 
   ENDPOINT("POST", "/images", postUsers,
            BODY_DTO(Object<RegisterImage>, registerImageDto))
   {
+    
     return createResponse(Status::CODE_200, "OK");
   }
   

@@ -8,9 +8,9 @@
 class RegisterImage : public oatpp::DTO {
   DTO_INIT(RegisterImage, DTO)
   
-  DTO_FIELD(String, name);
+  DTO_FIELD(String, username);
   DTO_FIELD(String, algo) = "CGNR";
-  DTO_FIELD(String, data);
+  DTO_FIELD(String, signal);
 };
 
 #include OATPP_CODEGEN_END(DTO)

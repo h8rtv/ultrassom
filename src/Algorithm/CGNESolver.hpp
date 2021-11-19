@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Factory.hpp"
 #include "ISolver.hpp"
 
 class CGNESolver : public ISolver {
@@ -26,3 +27,6 @@ public:
     return f;
   }
 };
+
+
+REGISTER_ALGORITHM(CGNESolver, "CGNE");

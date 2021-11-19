@@ -8,11 +8,11 @@
 class Image : public oatpp::DTO {
   DTO_INIT(Image, DTO)
 
-  DTO_FIELD(String, name);
+  DTO_FIELD(String, username);
   DTO_FIELD(String, algo) = "CGNR";
   DTO_FIELD(String, start_date);
   DTO_FIELD(String, end_date);
-  DTO_FIELD(String, img);
+  DTO_FIELD(String, data);
   DTO_FIELD(Int32, height);
   DTO_FIELD(Int32, width);
   DTO_FIELD(Int32, iterations);

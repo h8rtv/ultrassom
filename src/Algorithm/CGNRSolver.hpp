@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Factory.hpp"
 #include "ISolver.hpp"
 
 class CGNRSolver : public ISolver {
@@ -27,3 +28,5 @@ public:
     return f;
   }
 };
+
+REGISTER_ALGORITHM(CGNRSolver, "CGNR");
