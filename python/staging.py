@@ -1,3 +1,4 @@
+import json
 import webview
 import numpy as np
 
@@ -54,7 +55,6 @@ class Staging():
         except Exception as e:
             print('Error processing file:', e)
 
-
     def send_image(self):
         try:
             if self.current_array is None:
@@ -90,3 +90,18 @@ class Staging():
     def read_file(self, file_name):
         with open(file_name, 'rb') as f:
             return f.read().decode('utf-8')
+
+    def refresh_images(self):
+        self.get_images()
+
+    def get_images(self):
+        try:
+            # images = self.api.get_images(self.current_username)
+            images = self.api.mock_get_images(self.current_username)
+            print(f'Got {len(images["images"])} images from user "{self.current_username}".')
+
+            jsonStr = json.dumps(images)
+            print(f'create_images({jsonStr})')
+            self.window.evaluate_js(f'create_images(\'{jsonStr}\')')
+        except Exception as e:
+            print('Error getting images:', e)
