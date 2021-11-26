@@ -1,9 +1,14 @@
-function onLoad() {
+function handleLogin() {
+    var username = document.querySelector("#username").value;
+    var success = pywebview.api.login(username);
 
+    if (success) {
+        document.querySelector("#login").style.display = "none";
+        document.querySelector("#main").style.display = "block";
+    }
 }
 
 function process_done(){
-    pywebview.api.echo("done()");
     document.querySelector("#form #send").disabled = false;
     document.querySelector("#form #send").value = "Send image";
     document.querySelector("#form #send").onclick = function(){
@@ -13,6 +18,13 @@ function process_done(){
 
 function file_selected(isSelected) {
     // document.querySelector("#form #select").disabled = isSelected;
+}
+
+function clear_images() {
+    var rows = document.querySelectorAll("#table tr.image-data");
+    for (var i = 0; i < rows.length; i++) {
+        rows[i].parentNode.removeChild(rows[i]);
+    }
 }
 
 function create_images(data) {
@@ -26,6 +38,7 @@ function create_images(data) {
     for (var i = 0; i < images.length; i++) {
         var image = images[i];
         var tr = document.createElement("tr");
+        tr.className = "image-data";
         tbody.appendChild(tr);
 
         var td_name = document.createElement("td");

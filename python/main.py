@@ -25,6 +25,7 @@ def start_window(window):
   window.expose(staging.open_file_dialog)
   window.expose(staging.send_image)
   window.expose(staging.refresh_images)
+  window.expose(staging.login)
 
 if __name__ == '__main__':
   window = webview.create_window('Ultrassom', './html/index.html')

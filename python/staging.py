@@ -94,14 +94,21 @@ class Staging():
     def refresh_images(self):
         self.get_images()
 
+    def login(self, username) -> bool:
+        self.current_username = username
+        self.refresh_images()
+
+        print('Logged in as', username)
+        return True
+
     def get_images(self):
         try:
-            # images = self.api.get_images(self.current_username)
+            self.window.evaluate_js(f'clear_images()')
+
             images = self.api.mock_get_images(self.current_username)
             print(f'Got {len(images["images"])} images from user "{self.current_username}".')
 
             jsonStr = json.dumps(images)
-            print(f'create_images({jsonStr})')
             self.window.evaluate_js(f'create_images(\'{jsonStr}\')')
         except Exception as e:
             print('Error getting images:', e)

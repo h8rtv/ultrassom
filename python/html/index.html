@@ -11,38 +11,51 @@
 </head>
 
 <body onload="onLoad();">
-    <h1>Python</h1>
-    <p>Python is a general-purpose, high-level programming language. Its design philosophy emphasizes code readability,
-        and its syntax allows programmers to express concepts in fewer lines of code than would be possible in languages
-        such as C++ or Java. The language provides constructs intended to enable clear programs on both a small and
-        large scale. Python supports multiple programming paradigms, including object-oriented, imperative and
-        functional programming or procedural styles. It features a dynamic type system and automatic memory management
-        and has a large and comprehensive standard library.
-    </p>
+    <h1>Ultrassom</h1>
 
-    <div id="form">
-        <input type="button" id="select" value="Select File" onclick="pywebview.api.open_file_dialog()" />
-        <input type="button" id="send" value="Process" onclick="pywebview.api.process_file()" />
+    <div class="page" id="login">
+        <div id="login-form">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="button" value="Login" onclick="handleLogin()">
+        </div>
     </div>
 
-    <div>
-        <button onclick="pywebview.api.refresh_images();">Refresh images</button>
+    <div class="page" id="main">
+        <div id="form">
+            <input type="button" id="select" value="Select File" onclick="pywebview.api.open_file_dialog()" />
+            <input type="button" id="send" value="Process" onclick="pywebview.api.process_file()" />
+        </div>
+
+        <div>
+            <button onclick="pywebview.api.refresh_images();">Refresh images</button>
+        </div>
+
+        <div id="result">
+            <!-- Manipulated by JavaScript -->
+            <table id="table">
+                <tr>
+                    <th>Usuário</th>
+                    <th>Algoritmo</th>
+                    <th>Data de início</th>
+                    <th>Data de fim</th>
+                    <th>Iterações</th>
+                    <th>Tempo (s)</th>
+                    <th>Imagem</th>
+                </tr>
+            </table>
+        </div>
     </div>
 
-    <div id="result">
-        <!-- Manipulated by JavaScript -->
-        <table id="table">
-            <tr>
-                <th>Usuário</th>
-                <th>Algoritmo</th>
-                <th>Data de início</th>
-                <th>Data de fim</th>
-                <th>Iterações</th>
-                <th>Tempo (s)</th>
-                <th>Imagem</th>
-            </tr>
-        </table>
-    </div>
 </body>
+
+<script>
+
+function onLoad() {
+    document.getElementById("login").style.display = "block";
+    document.getElementById("main").style.display = "none";
+}
+
+</script>
 
 </html>
