@@ -81,9 +81,9 @@ class Staging():
     def signal_gain(self, g):
         N = 64
         S = 794
-        for c in range(N):
-            for l in range(S):
-                y = 100 + 1 / 20 * (l + 1) * np.sqrt(l + 1)
+        for c in range(1, N + 1):
+            for l in range(1, S + 1):
+                y = 100 + 1 / 20 * (l) * np.sqrt(l)
                 index = l + S * c
                 g[index] = g[index] * y
 
@@ -107,6 +107,11 @@ class Staging():
 
             images = self.api.mock_get_images(self.current_username)
             print(f'Got {len(images["images"])} images from user "{self.current_username}".')
+
+            # remove data:image start
+            for image in images['images']:
+                image['img'] = image['img'].replace("data:image/png;base64,", "")
+                image['img'] = image['img'].replace("data:image/png;base64", "")
 
             jsonStr = json.dumps(images)
             self.window.evaluate_js(f'create_images(\'{jsonStr}\')')

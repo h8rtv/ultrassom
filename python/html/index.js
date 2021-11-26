@@ -67,7 +67,7 @@ function create_images(data) {
 
         var td_img = document.createElement("td");
         var img = document.createElement("img");
-        img.src = "data:image/png;base64, " + image["img"];
+        img.src = "data:image/png;base64," + image["img"];
         td_img.appendChild(img);
         tr.appendChild(td_img);
     }
