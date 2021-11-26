@@ -9,7 +9,7 @@
 #define REGISTER_ALGORITHM (type, name)            \
   AlgorithmFactory::register_algorithm<type>(name, \
   []() {                                           \
-    return std::unique_ptr<T>(new T))              \
+    return std::unique_ptr<T>(new T));             \
   }
 
 class AlgorithmFactory {
@@ -28,7 +28,7 @@ public:
   }
 
   template<typename T>
-  static void register_algorithm(std::string name, std::function<std::unique_ptr<ISolver>()> creator) {
+  constexpr static void register_algorithm(std::string name, std::function<std::unique_ptr<ISolver>()> creator) {
     instance().map[name] = creator;
   }
 
