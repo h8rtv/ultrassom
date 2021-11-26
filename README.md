@@ -68,4 +68,4 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
       - `height`: Inteiro, altura da imagem;
       - `width`: Inteiro, largura da imagem;
     - `iterations`: Inteiro, numero de iterações executadas;
-    - `reconstruction_time`: Timestamp, tempo de reconstrução **utilizando duas bibliotecas distintas**.
+    - `reconstruction_time`: Timestamp, tempo de reconstrução.

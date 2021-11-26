@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Python</title>
+
+    <script src="./index.js"></script>
+</head>
+
+<body onload="onLoad();">
+    <h1>Python</h1>
+    <p>Python is a general-purpose, high-level programming language. Its design philosophy emphasizes code readability,
+        and its syntax allows programmers to express concepts in fewer lines of code than would be possible in languages
+        such as C++ or Java. The language provides constructs intended to enable clear programs on both a small and
+        large scale. Python supports multiple programming paradigms, including object-oriented, imperative and
+        functional programming or procedural styles. It features a dynamic type system and automatic memory management
+        and has a large and comprehensive standard library.
+    </p>
+
+    <div id="form">
+        <input type="button" id="select" value="Select File" onclick="pywebview.api.open_file_dialog()" />
+        <input type="button" id="send" value="Process" onclick="pywebview.api.process_file()" />
+    </div>
+</body>
+
+</html>
