@@ -13,28 +13,30 @@ public:
     : oatpp::orm::DbClient(executor)
   {
     oatpp::orm::SchemaMigration migration(executor);
-    migration.addFile(1, DATABASE_MIGRATIONS "/001_init.sql");
+    migration.addFile(1, DATABASE_MIGRATIONS "/001_images_init.sql");
     migration.migrate();
 
     auto version = executor->getSchemaVersion();
-    OATPP_LOGD("UserDb", "Migration - OK. Version=%lld.", version);
+    OATPP_LOGD("ImageDb", "Migration - OK. Version=%lld.", version);
   }
 
   QUERY(createImage,
-        "INSERT INTO Images"
+        "INSERT INTO images"
         "("
-          "username, algo, start_date, end_date, "
-          "data, height, width, iterations, reconstruction_time"
+          "algo, start_date, end_date, "
+          "data, height, width, iterations, "
+          "reconstruction_time, user"
         ") VALUES "
         "("
-          ":image.username, :image.algo, :image.start_date, :image.end_date, "
-          ":image.data, :image.height, :image.width, :image.iterations, :image.reconstruction_time"
+          ":image.algo, :image.start_date, :image.end_date, "
+          ":image.data, :image.height, :image.width, :image.iterations, "
+          ":image.reconstruction_time, :image.user"
         ");",
         PARAM(oatpp::Object<Image>, image))
 
   QUERY(getImagesByUser,
-        "SELECT * FROM Images WHERE username=:username;",
-        PARAM(oatpp::String, username))
+        "SELECT * FROM images WHERE user=:user;",
+        PARAM(oatpp::Int32, user))
 };
 
 #include OATPP_CODEGEN_END(DbClient)

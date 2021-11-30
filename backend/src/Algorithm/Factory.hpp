@@ -1,20 +1,19 @@
 #pragma once
 
-#include <unordered_map>
+#include <map>
 #include <functional>
 #include <memory>
+#include <iostream>
 
 #include "ISolver.hpp"
 
-#define REGISTER_ALGORITHM (type, name)            \
-  AlgorithmFactory::register_algorithm<type>(name, \
-  []() {                                           \
-    return std::unique_ptr<T>(new T));             \
-  }
-
 class AlgorithmFactory {
 private:
-  std::unordered_map<std::string, std::function<std::unique_ptr<ISolver>()>> map;
+  std::map<
+    std::string,
+    std::function<std::unique_ptr<ISolver>()>,
+    std::less<>
+  > map;
 
   AlgorithmFactory() { };
 
@@ -28,15 +27,18 @@ public:
   }
 
   template<typename T>
-  constexpr static void register_algorithm(std::string name, std::function<std::unique_ptr<ISolver>()> creator) {
+  constexpr static bool register_algorithm(std::string name, std::function<std::unique_ptr<ISolver>()> creator) {
+    std::cout << "Registering " << name << "\n";
     instance().map[name] = creator;
+    return true;
   }
 
-  static std::unique_ptr<ISolver>create(const std::string& key) {
+  static std::unique_ptr<ISolver>create(std::string_view key) {
     auto& map = instance().map;
     std::unique_ptr<ISolver> pointer;
-    if (map.count(key)) {
-      pointer = (map[key])();
+    auto found = map.find(key);
+    if (found != map.end()) {
+      pointer = found->second();
     }
     return pointer;
   }

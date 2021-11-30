@@ -5,11 +5,16 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
+ENUM(Algorithm, v_int32,
+     VALUE(CGNR, 0, "CGNR"),
+     VALUE(CGNE, 1, "CGNE")
+)
+
 class Image : public oatpp::DTO {
   DTO_INIT(Image, DTO)
 
-  DTO_FIELD(String, username);
-  DTO_FIELD(String, algo) = "CGNR";
+  DTO_FIELD(Int32, id);
+  DTO_FIELD(Enum<Algorithm>, algo) = Algorithm::CGNR;
   DTO_FIELD(String, start_date);
   DTO_FIELD(String, end_date);
   DTO_FIELD(String, data);
@@ -17,6 +22,7 @@ class Image : public oatpp::DTO {
   DTO_FIELD(Int32, width);
   DTO_FIELD(Int32, iterations);
   DTO_FIELD(Int32, reconstruction_time);
+  DTO_FIELD(Int32, user);
 };
 
 #include OATPP_CODEGEN_END(DTO)

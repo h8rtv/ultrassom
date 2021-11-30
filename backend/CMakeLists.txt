@@ -16,7 +16,9 @@ add_definitions(
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-add_executable(ultrassom src/main.cpp)
+add_executable(ultrassom src/main.cpp
+                         src/Algorithm/CGNRSolver.cpp
+                         src/Algorithm/CGNESolver.cpp)
 
 target_include_directories(ultrassom PUBLIC src)
 

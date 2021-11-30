@@ -1,5 +1,4 @@
 #include "Server.hpp"
-#include "AlgebraState.hpp"
 
 void signal_gain(Eigen::VectorXd& g) {
   uint N = 64;
@@ -14,11 +13,6 @@ void signal_gain(Eigen::VectorXd& g) {
 }
 
 int main() {
-  // Init Algebra State (Model Matrix)
-  std::cout << "Init Algebra State" << std::endl;
-  static_cast<void>(AlgebraState::instance());
-  std::cout << "Algebra State loaded" << std::endl;
-
   oatpp::base::Environment::init();
 
   Server::run();

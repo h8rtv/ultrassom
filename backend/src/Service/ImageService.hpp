@@ -1,33 +1,34 @@
-
 #pragma once
 
 #include <oatpp/web/protocol/http/Http.hpp>
 #include <oatpp/core/macro/component.hpp>
 
+#include "Schedule/Scheduler.hpp"
 #include "Persistence/Repository/ImageDb.hpp"
-#include "Dto/RegisterImage.hpp"
 #include "Dto/Image.hpp"
 
-#include "AlgebraState.hpp"
-#include "Algorithm/Factory.hpp"
-#include "Parser/CSVParser.hpp"
-#include "Util/ImageUtils.hpp"
 
 class ImageService {
 private:
   typedef oatpp::web::protocol::http::Status Status;
 private:
   OATPP_COMPONENT(std::shared_ptr<ImageDb>, imageDb); // Inject database component
+  OATPP_COMPONENT(std::shared_ptr<Eigen::MatrixXd>, modelMatrix); // Inject model matrix component
+  OATPP_COMPONENT(std::shared_ptr<Scheduler>, scheduler); // Inject task scheduler component
 public:
 
-  oatpp::Object<Image> createImage(const oatpp::Object<RegisterImage>& dto) {
-    auto H = AlgebraState::instance().get_model_matrix();
-    auto solver = AlgorithmFactory::create(dto->algo->std_str());
-    Eigen::VectorXd g = CSVParser(std::string(dto->signal->std_str())).parse();
-    Eigen::VectorXd f = solver->solve(g, H);
-    std::string img = gen_image(f);
+  oatpp::Object<Image> createImage(const oatpp::Object<Image>& dto) {
+    dto->height = 60;
+    dto->width = 60;
+    auto dbResult = imageDb->createImage(dto);
+    OATPP_ASSERT_HTTP(dbResult->isSuccess(), Status::CODE_500, dbResult->getErrorMessage());
 
-    return Image::createShared();
+    u_int32_t user = dto->user;
+    std::string data = dto->data->std_str();
+    std::string algo = oatpp::Enum<Algorithm>::getEntryByValue(dto->algo).name.std_str();
+    
+    scheduler->schedule(UltrasoundTask{user, algo, data, modelMatrix});
+    return dto;
   }
 
   oatpp::List<oatpp::Object<Image>> getImagesByUser(std::string_view username) {

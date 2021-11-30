@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Repository/ImageDb.hpp"
+#include "Persistence/Repository/ImageDb.hpp"
+#include "Persistence/Repository/UserDb.hpp"
 
-class DatabaseComponent {
+class Database {
 public:
     
   /**
@@ -21,7 +22,7 @@ public:
   }());
 
   /**
-   * Create database client
+   * Create image client
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<ImageDb>, imageDb)([] {
 
@@ -33,6 +34,22 @@ public:
 
     /* Create MyClient database client */
     return std::make_shared<ImageDb>(executor);
+
+  }());
+
+  /**
+   * Create user client
+   */
+  OATPP_CREATE_COMPONENT(std::shared_ptr<UserDb>, userDb)([] {
+
+    /* Get database ConnectionProvider component */
+    OATPP_COMPONENT(std::shared_ptr<oatpp::provider::Provider<oatpp::sqlite::Connection>>, connectionProvider);
+
+    /* Create database-specific Executor */
+    auto executor = std::make_shared<oatpp::sqlite::Executor>(connectionProvider);
+
+    /* Create MyClient database client */
+    return std::make_shared<UserDb>(executor);
 
   }());
 

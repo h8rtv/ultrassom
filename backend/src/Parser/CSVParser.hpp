@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <algorithm>
 #include <execution>
 #include <string_view>
@@ -73,7 +74,7 @@ private:
 
 public:
   CSVParser(std::string_view file_content, char separator = ',') : file_content(file_content), separator(separator) {}
-  ~CSVParser() { }
+  ~CSVParser() {}
 
   [[nodiscard]]
   Eigen::MatrixXd parse() {

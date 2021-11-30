@@ -5,8 +5,9 @@
 #include <oatpp/parser/json/mapping/ObjectMapper.hpp>
 #include <oatpp/core/macro/component.hpp>
 
-#include "Persistence/DatabaseComponent.hpp"
-#include "Parser/CSVFileParser.hpp"
+#include "ModelMatrix.hpp"
+#include "Database.hpp"
+#include "Schedule.hpp"
 
 /**
  *  Class which creates and holds Application components and registers components in oatpp::base::Environment
@@ -14,10 +15,9 @@
  */
 class AppComponent {
 public:
-  /**
-   * Database component
-   */
-  DatabaseComponent databaseComponent;
+  ModelMatrix modelMatrixComponent;
+  Database databaseComponent;
+  Schedule scheduleComponent;
 
   /**
    *  Create ConnectionProvider component which listens on the port
