@@ -30,23 +30,20 @@ public:
   ENDPOINT("GET", "/users/{user_id}/images", getImagesByUser,
            PATH(Int32, user_id, "user_id"))
   {
-    OATPP_LOGD("Test", "user_id=%d", user_id);
-    return createResponse(Status::CODE_200, "OK");
+    return createDtoResponse(Status::CODE_200, imageService.getImagesByUser(user_id));
   }
 
   ENDPOINT("POST", "/images", createImage,
            BODY_DTO(Object<Image>, imageDto))
   {
-    return createDtoResponse(Status::CODE_202, imageService.createImage(imageDto));
+    return createDtoResponse(Status::CODE_201, imageService.createImage(imageDto));
   }
 
-  ENDPOINT("POST", "/images/{image_id}/upload", uploadImage,
+  ENDPOINT("POST", "/images/{image_id}/signal", processSignal,
            BODY_STRING(String, body),
            PATH(Int32, image_id, "image_id"))
   {
-    std::string filename = "signals/" + std::to_string(image_id) + ".csv";
-    body->saveToFile(filename.c_str());
-    return createResponse(Status::CODE_202, "ACCEPTED");
+    return createDtoResponse(Status::CODE_202, imageService.processSignal(image_id, body->std_str()));
   }
   
 };

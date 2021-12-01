@@ -37,6 +37,10 @@ public:
   QUERY(getImagesByUser,
         "SELECT * FROM images WHERE user=:user;",
         PARAM(oatpp::Int32, user))
+
+  QUERY(getImageById,
+        "SELECT * FROM images WHERE id=:id;",
+        PARAM(oatpp::Int32, id))
 };
 
 #include OATPP_CODEGEN_END(DbClient)

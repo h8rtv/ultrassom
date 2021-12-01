@@ -35,12 +35,14 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
 ```
 
 # TODO
- - [ ] Fazer o parser ler números no formato X,XXXE-XX
+ - [x] Fazer o parser ler números no formato X,XXXE-XX
  - [ ] Fazer o parser ler de blob ou base64 ou o que a gente usar para fazer o upload da imagem
  - [x] Tentar paralelisar o parser
  - [x] Gerar um relatório com custo de memória e tempo
- - [ ] Fazer servidor
- - [ ] Testar com a nova matriz modelo H
+ - [x] Fazer servidor
+ - [x] Testar com a nova matriz modelo H
+ - [ ] Trocar cout por logs do oatpp
+ - [ ] Otimizar algoritmos mantendo em cache a transposta
 
 # API
 ## Cadastrar imagem POST /images

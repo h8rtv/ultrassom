@@ -5,6 +5,5 @@ data/**
 !data/.gitkeep
 !out/.gitkeep
 /build
-/signals
 __pycache__
 db.sqlite
