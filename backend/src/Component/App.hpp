@@ -15,9 +15,9 @@
  */
 class AppComponent {
 public:
-  ModelMatrix modelMatrixComponent;
-  Database databaseComponent;
-  Schedule scheduleComponent;
+  ModelMatrixComponent modelMatrixComponent;
+  DatabaseComponent databaseComponent;
+  ScheduleComponent scheduleComponent;
 
   /**
    *  Create ConnectionProvider component which listens on the port

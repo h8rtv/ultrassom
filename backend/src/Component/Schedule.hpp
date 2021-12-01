@@ -2,7 +2,7 @@
 
 #include "Schedule/Scheduler.hpp"
 
-class Schedule {
+class ScheduleComponent {
 public:
 
   /**

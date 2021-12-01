@@ -3,7 +3,7 @@
 #include "Persistence/Repository/ImageDb.hpp"
 #include "Persistence/Repository/UserDb.hpp"
 
-class Database {
+class DatabaseComponent {
 public:
     
   /**

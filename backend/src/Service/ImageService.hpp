@@ -6,6 +6,7 @@
 #include "Schedule/Scheduler.hpp"
 #include "Persistence/Repository/ImageDb.hpp"
 #include "Dto/Image.hpp"
+#include "ModelMatrix.hpp"
 
 
 class ImageService {
@@ -13,7 +14,7 @@ private:
   typedef oatpp::web::protocol::http::Status Status;
 private:
   OATPP_COMPONENT(std::shared_ptr<ImageDb>, imageDb); // Inject database component
-  OATPP_COMPONENT(std::shared_ptr<Eigen::MatrixXd>, modelMatrix); // Inject model matrix component
+  OATPP_COMPONENT(std::shared_ptr<ModelMatrix>, modelMatrix); // Inject model matrix component
   OATPP_COMPONENT(std::shared_ptr<Scheduler>, scheduler); // Inject task scheduler component
 public:
 

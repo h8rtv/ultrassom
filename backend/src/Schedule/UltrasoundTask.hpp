@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string_view>
-#include <Eigen/Dense>
 
+#include "ModelMatrix.hpp"
 #include "Algorithm/Factory.hpp"
 #include "Parser/CSVParser.hpp"
 #include "Util/ImageGeneration.hpp"
@@ -12,24 +12,24 @@ private:
   v_int32 user;
   std::string algorithm;
   std::string data;
-  const Eigen::MatrixXd& H;
+  const ModelMatrix& modelMatrix;
 
 public:
   UltrasoundTask(
     v_int32 user,
     std::string algorithm,
     std::string data,
-    const Eigen::MatrixXd& H)
+    const ModelMatrix& modelMatrix)
   : user(user),
     algorithm(algorithm),
     data(data),
-    H(H)
+    modelMatrix(modelMatrix)
   {};
 
   void operator()() const {
-    auto solver = AlgorithmFactory::create(algorithm);
+    auto solver = AlgorithmFactory::create(algorithm, modelMatrix);
     Eigen::VectorXd g = CSVParser(data).parse();
-    Eigen::VectorXd f = solver->solve(g, H);
+    Eigen::VectorXd f = solver->solve(g);
     std::string img = gen_image(f);
   };
 };

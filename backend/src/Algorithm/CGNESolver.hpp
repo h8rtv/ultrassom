@@ -7,5 +7,6 @@ class CGNESolver : public ISolver {
 private:
   static bool registered;
 public:
-  Eigen::VectorXd solve(const Eigen::VectorXd& g, const Eigen::MatrixXd& H);
+  CGNESolver(const ModelMatrix& modelMatrix) : ISolver(modelMatrix) {};
+  Eigen::VectorXd solve(const Eigen::VectorXd& g);
 };

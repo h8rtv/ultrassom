@@ -3,19 +3,24 @@
 #include <iostream>
 #include <Eigen/Dense>
 
+#include "ModelMatrix.hpp"
 #include "Parser/CSVFileParser.hpp"
 
-class ModelMatrix {
+class ModelMatrixComponent {
 public:
 
   /**
    *  Create Model Matrix Component
    */
-  OATPP_CREATE_COMPONENT(std::shared_ptr<Eigen::MatrixXd>, modelMatrix)([] {
+  OATPP_CREATE_COMPONENT(std::shared_ptr<ModelMatrix>, modelMatrix)([] {
     Eigen::initParallel();
     std::cout << "Start parse Model Matrix" << std::endl;
-    auto H = std::make_shared<Eigen::MatrixXd>(CSVFileParser(MODEL_MATRIX).parse());
+    auto matrices = std::make_shared<ModelMatrix>();
+    matrices->H = CSVFileParser(MODEL_MATRIX).parse();
     std::cout << "Finish parse Model Matrix" << std::endl;
-    return H;
+    std::cout << "Start compute transposition" << std::endl;
+    matrices->Ht = matrices->H.transpose();
+    std::cout << "Finish Compute transposition" << std::endl;
+    return matrices;
   }());
 };
