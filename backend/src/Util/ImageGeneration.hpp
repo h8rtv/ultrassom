@@ -18,6 +18,6 @@ namespace Util::ImageGeneration {
     img.rotate(90);
     img.flop();
     img.write(&blob);
-    img.write(filename);
+    img.write(OUTPUT_DIR + filename);
   }
 }

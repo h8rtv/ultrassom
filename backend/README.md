@@ -44,7 +44,7 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
  - [x] Otimizar algoritmos mantendo em cache a transposta
  - [ ] Rotas do usuário
  - [ ] Terminar campos de imagens
- - [ ] Servir as imagens
+ - [x] Servir as imagens
  - [x] Enum qualidade de imagem
  - [ ] Sistema de notificações
  - [ ] Atualizar documentação

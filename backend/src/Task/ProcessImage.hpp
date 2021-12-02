@@ -51,7 +51,7 @@ public:
     Eigen::VectorXd f = solver->solve(g);
     float time = finish();
 
-    std::string filename = "out/" + Util::Uuid::generate_uuid_v4() + ".png";
+    std::string filename = Util::Uuid::generate_uuid_v4() + ".png";
     OATPP_LOGI("ProcessImage", "Generating image: %s", filename.c_str());
     OATPP_LOGI("ProcessImage", "Time: %f", time);
     Util::ImageGeneration::save_image(f, filename);

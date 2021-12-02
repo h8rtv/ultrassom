@@ -11,6 +11,8 @@ add_definitions(
   -DDATABASE_MIGRATIONS="${CMAKE_CURRENT_SOURCE_DIR}/sql"
   ## Path to model matrix
   -DMODEL_MATRIX="${CMAKE_CURRENT_SOURCE_DIR}/data/H-1.csv"
+  ## Directory to persist the images
+  -DOUTPUT_DIR="${CMAKE_CURRENT_SOURCE_DIR}/out/"
 )
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
