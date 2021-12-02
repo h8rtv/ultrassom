@@ -3,7 +3,6 @@
 #include <map>
 #include <functional>
 #include <memory>
-#include <iostream>
 
 #include "ISolver.hpp"
 
@@ -11,7 +10,7 @@ class AlgorithmFactory {
 private:
   std::map<
     std::string,
-    std::function<std::unique_ptr<ISolver>(const ModelMatrix&)>,
+    std::function<std::unique_ptr<ISolver>(const ModelMatrix&, Config)>,
     std::less<>
   > map;
 
@@ -27,18 +26,17 @@ public:
   }
 
   template<typename T>
-  constexpr static bool register_algorithm(std::string name, std::function<std::unique_ptr<ISolver>(const ModelMatrix&)> creator) {
-    std::cout << "Registering " << name << "\n";
+  constexpr static bool register_algorithm(std::string name, std::function<std::unique_ptr<ISolver>(const ModelMatrix&, Config)> creator) {
     instance().map[name] = creator;
     return true;
   }
 
-  static std::unique_ptr<ISolver>create(std::string_view key, const ModelMatrix& matrix) {
+  static std::unique_ptr<ISolver>create(std::string_view key, const ModelMatrix& matrix, Config config) {
     auto& map = instance().map;
     std::unique_ptr<ISolver> pointer;
     auto found = map.find(key);
     if (found != map.end()) {
-      pointer = found->second(matrix);
+      pointer = found->second(matrix, config);
     }
     return pointer;
   }

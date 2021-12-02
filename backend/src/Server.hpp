@@ -6,8 +6,6 @@
 #include "Controller/ImageController.hpp"
 #include "Component/App.hpp"
 
-#include <iostream>
-
 namespace Server {
   void run() {
 

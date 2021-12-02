@@ -7,7 +7,7 @@ CREATE TABLE images (
   height              INTEGER,
   width               INTEGER,
   iterations          INTEGER,
-  reconstruction_time INTEGER,
+  time                REAL,
   user                INTEGER,
   FOREIGN KEY(user) REFERENCES users(id)
 );

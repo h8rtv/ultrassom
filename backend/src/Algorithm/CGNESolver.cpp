@@ -1,8 +1,8 @@
 #include "CGNESolver.hpp"
 
 bool CGNESolver::registered = AlgorithmFactory::register_algorithm<CGNESolver>(
-  "CGNE", [](const ModelMatrix& matrix) {
-    return std::unique_ptr<CGNESolver>(new CGNESolver(matrix));
+  "CGNE", [](const ModelMatrix& matrix, Config config) {
+    return std::unique_ptr<CGNESolver>(new CGNESolver{matrix, config});
   }
 );
 
@@ -13,13 +13,13 @@ Eigen::VectorXd CGNESolver::solve(const Eigen::VectorXd& g) {
   Eigen::VectorXd r = g - H * f;
   Eigen::VectorXd p = Ht * r;
   double r_old_norm = r.norm();
-  for (int i = 0; i < 20; i++) {
+  for (int i = 0; i < config.maxIterations; i++) {
     double alpha_num = r.transpose() * r;
     double alpha_den = p.transpose() * p;
     double alpha = alpha_num / alpha_den;
     r = r - alpha * H * p;
     double error = std::abs(r.norm() - r_old_norm);
-    if (error < 1e-4) break;
+    if (error < config.maxError) break;
     f = f + alpha * p;
     double beta_num = r.transpose() * r;
     const double& beta_den = alpha_num;

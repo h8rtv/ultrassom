@@ -1,8 +1,8 @@
 #include "CGNRSolver.hpp"
 
 bool CGNRSolver::registered = AlgorithmFactory::register_algorithm<CGNRSolver>(
-  "CGNR", [](const ModelMatrix& matrix) {
-    return std::unique_ptr<CGNRSolver>(new CGNRSolver(matrix));
+  "CGNR", [](const ModelMatrix& matrix, Config config) {
+    return std::unique_ptr<CGNRSolver>(new CGNRSolver{matrix, config});
   }
 );
 
@@ -14,13 +14,13 @@ Eigen::VectorXd CGNRSolver::solve(const Eigen::VectorXd& g) {
   Eigen::VectorXd z = Ht * r;
   Eigen::VectorXd p = z;
   double r_old_norm = r.norm();
-  for (int i = 0; i < 20; i++) {
+  for (int i = 0; i < config.maxIterations; i++) {
     auto w = H * p;
     double z_norm = std::pow(z.norm(), 2);
     double alpha =  z_norm / std::pow(w.norm(), 2);
     r = r - alpha * w;
     double error = std::abs(r.norm() - r_old_norm);
-    if (error < 1e-4) break;
+    if (error < config.maxError) break;
     f = f + alpha * p;
     z = Ht * r;
     double beta = std::pow(z.norm(), 2) / z_norm;

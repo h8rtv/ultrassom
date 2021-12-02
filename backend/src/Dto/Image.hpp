@@ -21,7 +21,7 @@ class Image : public oatpp::DTO {
   DTO_FIELD(Int32, height);
   DTO_FIELD(Int32, width);
   DTO_FIELD(Int32, iterations);
-  DTO_FIELD(Int32, reconstruction_time);
+  DTO_FIELD(Float32, time);
   DTO_FIELD(Int32, user);
 };
 

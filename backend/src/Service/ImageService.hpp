@@ -8,16 +8,14 @@
 #include "Dto/Image.hpp"
 #include "ModelMatrix.hpp"
 
-
 class ImageService {
 private:
   typedef oatpp::web::protocol::http::Status Status;
 private:
   OATPP_COMPONENT(std::shared_ptr<ImageDb>, imageDb); // Inject database component
-  OATPP_COMPONENT(std::shared_ptr<ModelMatrix>, modelMatrix); // Inject model matrix component
   OATPP_COMPONENT(std::shared_ptr<Scheduler>, scheduler); // Inject task scheduler component
-public:
 
+public:
   oatpp::Object<Image> createImage(const oatpp::Object<Image>& dto) {
     dto->height = 60;
     dto->width = 60;
@@ -43,11 +41,9 @@ public:
   oatpp::Object<Image> processSignal(v_int32 id, std::string data) {
     auto image = getImageById(id);
 
-    v_int32 user = image->user;
     std::string algo = oatpp::Enum<Algorithm>::getEntryByValue(image->algo).name.std_str();
-    
 
-    scheduler->schedule(UltrasoundTask{user, algo, data, *modelMatrix});
+    scheduler->schedule(UltrasoundTask{image, algo, data});
     return image;
   }
 

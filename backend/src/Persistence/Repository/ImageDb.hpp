@@ -25,13 +25,27 @@ public:
         "("
           "algo, start_date, end_date, "
           "data, height, width, iterations, "
-          "reconstruction_time, user"
+          "time, user"
         ") VALUES "
         "("
           ":image.algo, :image.start_date, :image.end_date, "
           ":image.data, :image.height, :image.width, :image.iterations, "
-          ":image.reconstruction_time, :image.user"
+          ":image.time, :image.user"
         ");",
+        PARAM(oatpp::Object<Image>, image))
+
+  QUERY(updateImage,
+        "UPDATE images SET "
+        " algo=:image.algo, "
+        " start_date=:image.start_date, "
+        " end_date=:image.end_date, "
+        " data=:image.data, "
+        " height=:image.height, "
+        " width=:image.width, "
+        " iterations=:image.iterations, "
+        " time=:image.time, "
+        " user=:image.user "
+        " WHERE id = :image.id;",
         PARAM(oatpp::Object<Image>, image))
 
   QUERY(getImagesByUser,

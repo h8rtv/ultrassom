@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <Eigen/Dense>
 
 #include "ModelMatrix.hpp"
@@ -14,13 +13,13 @@ public:
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<ModelMatrix>, modelMatrix)([] {
     Eigen::initParallel();
-    std::cout << "Start parse Model Matrix" << std::endl;
+    OATPP_LOGI("ModelMatrix", "Start parse");
     auto matrices = std::make_shared<ModelMatrix>();
     matrices->H = CSVFileParser(MODEL_MATRIX).parse();
-    std::cout << "Finish parse Model Matrix" << std::endl;
-    std::cout << "Start compute transposition" << std::endl;
+    OATPP_LOGI("ModelMatrix", "Finish parse");
+    OATPP_LOGI("ModelMatrix", "Start computing transposition");
     matrices->Ht = matrices->H.transpose();
-    std::cout << "Finish Compute transposition" << std::endl;
+    OATPP_LOGI("ModelMatrix", "Finish computing transposition");
     return matrices;
   }());
 };
