@@ -1,7 +1,7 @@
 #include "CGNRSolver.hpp"
 
 bool CGNRSolver::registered = AlgorithmFactory::register_algorithm<CGNRSolver>(
-  "CGNR", [](const ModelMatrix& matrix, Config config) {
+  "CGNR", [](const ModelMatrix& matrix, Settings::Config config) {
     return std::unique_ptr<CGNRSolver>(new CGNRSolver{matrix, config});
   }
 );

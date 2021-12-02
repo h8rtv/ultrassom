@@ -7,7 +7,7 @@ class CGNESolver : public ISolver {
 private:
   static bool registered;
 public:
-  CGNESolver(const ModelMatrix& modelMatrix, Config config = Config())
+  CGNESolver(const ModelMatrix& modelMatrix, Settings::Config config = Settings::Config())
   : ISolver(modelMatrix, config) {};
   Eigen::VectorXd solve(const Eigen::VectorXd& g);
 };

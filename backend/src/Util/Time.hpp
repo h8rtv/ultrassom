@@ -3,7 +3,7 @@
 #include <chrono>
 #include <functional>
 
-namespace Time {
+namespace Util::Time {
   using fsec = std::chrono::duration<float>;
   [[nodiscard]]
   std::function<float()> time_it() {

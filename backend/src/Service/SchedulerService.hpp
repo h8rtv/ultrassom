@@ -1,14 +1,14 @@
 #pragma once
 
 #include <tbb/task_group.h>
-#include "UltrasoundTask.hpp"
+#include <functional>
 
-class Scheduler {
+class SchedulerService {
 private:
   tbb::task_group tg;
 
 public:
-  void schedule(UltrasoundTask task) {
+  void schedule(std::function<void()> task) {
     tg.run(task);
   }
 };

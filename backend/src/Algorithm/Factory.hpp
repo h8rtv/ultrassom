@@ -10,7 +10,7 @@ class AlgorithmFactory {
 private:
   std::map<
     std::string,
-    std::function<std::unique_ptr<ISolver>(const ModelMatrix&, Config)>,
+    std::function<std::unique_ptr<ISolver>(const ModelMatrix&, Settings::Config)>,
     std::less<>
   > map;
 
@@ -26,12 +26,12 @@ public:
   }
 
   template<typename T>
-  constexpr static bool register_algorithm(std::string name, std::function<std::unique_ptr<ISolver>(const ModelMatrix&, Config)> creator) {
+  constexpr static bool register_algorithm(std::string name, std::function<std::unique_ptr<ISolver>(const ModelMatrix&, Settings::Config)> creator) {
     instance().map[name] = creator;
     return true;
   }
 
-  static std::unique_ptr<ISolver>create(std::string_view key, const ModelMatrix& matrix, Config config) {
+  static std::unique_ptr<ISolver>create(std::string_view key, const ModelMatrix& matrix, Settings::Config config) {
     auto& map = instance().map;
     std::unique_ptr<ISolver> pointer;
     auto found = map.find(key);

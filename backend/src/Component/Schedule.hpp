@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Schedule/Scheduler.hpp"
+#include "Service/SchedulerService.hpp"
 
 class ScheduleComponent {
 public:
@@ -8,7 +8,7 @@ public:
   /**
    *  Create Scheduler compoenent
    */
-  OATPP_CREATE_COMPONENT(std::shared_ptr<Scheduler>, scheduler)([] {
-    return std::make_shared<Scheduler>();
+  OATPP_CREATE_COMPONENT(std::shared_ptr<SchedulerService>, scheduler)([] {
+    return std::make_shared<SchedulerService>();
   }());
 };

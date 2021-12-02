@@ -3,7 +3,7 @@
 #include <random>
 #include <sstream>
 
-namespace Uuid {
+namespace Util::Uuid {
   static std::random_device              rd;
   static std::mt19937                    gen(rd());
   static std::uniform_int_distribution<> dis(0, 15);

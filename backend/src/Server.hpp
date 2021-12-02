@@ -33,7 +33,7 @@ namespace Server {
     oatpp::network::Server server(connectionProvider, connectionHandler);
 
     /* Print info about server port */
-    OATPP_LOGI("MyApp", "Server running on port %s", connectionProvider->getProperty("port").getData());
+    OATPP_LOGI("Ultrassom", "Server running on port %s", connectionProvider->getProperty("port").getData());
 
     /* Run server */
     server.run();

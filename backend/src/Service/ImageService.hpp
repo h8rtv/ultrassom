@@ -3,8 +3,9 @@
 #include <oatpp/web/protocol/http/Http.hpp>
 #include <oatpp/core/macro/component.hpp>
 
-#include "Schedule/Scheduler.hpp"
-#include "Persistence/Repository/ImageDb.hpp"
+#include "Task/ProcessImage.hpp"
+#include "SchedulerService.hpp"
+#include "Persistence/ImageDb.hpp"
 #include "Dto/Image.hpp"
 #include "ModelMatrix.hpp"
 
@@ -13,7 +14,8 @@ private:
   typedef oatpp::web::protocol::http::Status Status;
 private:
   OATPP_COMPONENT(std::shared_ptr<ImageDb>, imageDb); // Inject database component
-  OATPP_COMPONENT(std::shared_ptr<Scheduler>, scheduler); // Inject task scheduler component
+  OATPP_COMPONENT(std::shared_ptr<ModelMatrix>, modelMatrix); // Inject model matrix component
+  OATPP_COMPONENT(std::shared_ptr<SchedulerService>, scheduler); // Inject task scheduler service
 
 public:
   oatpp::Object<Image> createImage(const oatpp::Object<Image>& dto) {
@@ -41,9 +43,8 @@ public:
   oatpp::Object<Image> processSignal(v_int32 id, std::string data) {
     auto image = getImageById(id);
 
-    std::string algo = oatpp::Enum<Algorithm>::getEntryByValue(image->algo).name.std_str();
-
-    scheduler->schedule(UltrasoundTask{image, algo, data});
+    auto task = ProcessImage{image, data, *modelMatrix, imageDb};
+    scheduler->schedule(task);
     return image;
   }
 

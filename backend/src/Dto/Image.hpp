@@ -10,11 +10,18 @@ ENUM(Algorithm, v_int32,
      VALUE(CGNE, 1, "CGNE")
 )
 
+ENUM(Quality, v_int32,
+     VALUE(LOW, 0),
+     VALUE(MEDIUM, 1),
+     VALUE(HIGH, 2)
+)
+
 class Image : public oatpp::DTO {
   DTO_INIT(Image, DTO)
 
   DTO_FIELD(Int32, id);
   DTO_FIELD(Enum<Algorithm>, algo) = Algorithm::CGNR;
+  DTO_FIELD(Enum<Quality>::AsNumber, quality) = Quality::MEDIUM;
   DTO_FIELD(String, start_date);
   DTO_FIELD(String, end_date);
   DTO_FIELD(String, data);

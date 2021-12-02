@@ -1,7 +1,7 @@
 #include "CGNESolver.hpp"
 
 bool CGNESolver::registered = AlgorithmFactory::register_algorithm<CGNESolver>(
-  "CGNE", [](const ModelMatrix& matrix, Config config) {
+  "CGNE", [](const ModelMatrix& matrix, Settings::Config config) {
     return std::unique_ptr<CGNESolver>(new CGNESolver{matrix, config});
   }
 );

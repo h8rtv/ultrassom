@@ -25,12 +25,12 @@ public:
         "("
           "algo, start_date, end_date, "
           "data, height, width, iterations, "
-          "time, user"
+          "quality, time, user"
         ") VALUES "
         "("
           ":image.algo, :image.start_date, :image.end_date, "
           ":image.data, :image.height, :image.width, :image.iterations, "
-          ":image.time, :image.user"
+          ":image.quality, :image.time, :image.user"
         ");",
         PARAM(oatpp::Object<Image>, image))
 
@@ -43,6 +43,7 @@ public:
         " height=:image.height, "
         " width=:image.width, "
         " iterations=:image.iterations, "
+        " quality=:image.quality, "
         " time=:image.time, "
         " user=:image.user "
         " WHERE id = :image.id;",

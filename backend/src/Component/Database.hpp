@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Persistence/Repository/ImageDb.hpp"
-#include "Persistence/Repository/UserDb.hpp"
+#include "Persistence/ImageDb.hpp"
+#include "Persistence/UserDb.hpp"
 
 class DatabaseComponent {
 public:

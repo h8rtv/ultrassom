@@ -2,13 +2,13 @@
 
 #include <Eigen/Dense>
 #include "ModelMatrix.hpp"
-#include "Config.hpp"
+#include "Settings.hpp"
 
 class ISolver {
 protected:
   const ModelMatrix& modelMatrix;
-  Config config;
-  ISolver(const ModelMatrix& matrix, Config config = Config())
+  Settings::Config config;
+  ISolver(const ModelMatrix& matrix, Settings::Config config = Settings::Config())
   : modelMatrix(matrix),
     config(config)
   {};
