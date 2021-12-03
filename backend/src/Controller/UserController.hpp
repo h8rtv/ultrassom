@@ -6,7 +6,7 @@
 
 #include "Dto/User.hpp"
 
-#include "Service/ImageService.hpp"
+#include "Service/UserService.hpp"
 
 #include OATPP_CODEGEN_BEGIN(ApiController) //<-- Begin Codegen
 
@@ -23,23 +23,20 @@ public:
     : oatpp::web::server::api::ApiController(objectMapper)
   {}
 private:
-  ImageService imageService;
+  OATPP_COMPONENT(std::shared_ptr<UserService>, userService);
 public:
   
   ENDPOINT("GET", "/users/{id}", getUserById,
            PATH(Int32, id, "id"))
   {
-    OATPP_LOGD("Test", "username=%s", id);
-    return createResponse(Status::CODE_200, "OK");
+    return createDtoResponse(Status::CODE_200, userService->getUserById(id));
   }
 
   ENDPOINT("POST", "/users", createUser,
            BODY_DTO(Object<User>, userDto))
   {
-    
-    return createResponse(Status::CODE_200, "OK");
+    return createDtoResponse(Status::CODE_201, userService->createUser(userDto));
   }
-  
 };
 
 #include OATPP_CODEGEN_END(ApiController) //<-- End Codegen

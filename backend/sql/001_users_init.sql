@@ -1,4 +1,4 @@
 CREATE TABLE users (
   id                  INTEGER PRIMARY KEY,
-  username            TEXT UNIQUE NOT NULL 
+  name                TEXT UNIQUE NOT NULL 
 );

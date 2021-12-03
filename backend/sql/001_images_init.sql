@@ -3,12 +3,12 @@ CREATE TABLE images (
   algo                TEXT NOT NULL CHECK(algo IN ("CGNR", "CGNE")),
   start_date          TEXT,
   end_date            TEXT,
-  data                TEXT,  -- Trocar isso para blob talvez
+  data                TEXT,
   height              INTEGER,
   width               INTEGER,
   iterations          INTEGER,
   quality             INTEGER,
   time                REAL,
-  user                INTEGER,
-  FOREIGN KEY(user) REFERENCES users(id)
+  user                INTEGER NOT NULL,
+  FOREIGN KEY(user)   REFERENCES users(id)
 );

@@ -12,13 +12,16 @@ public:
   ImageDb(const std::shared_ptr<oatpp::orm::Executor>& executor)
     : oatpp::orm::DbClient(executor)
   {
-    oatpp::orm::SchemaMigration migration(executor);
+    oatpp::orm::SchemaMigration migration(executor, "images");
     migration.addFile(1, DATABASE_MIGRATIONS "/001_images_init.sql");
     migration.migrate();
 
     auto version = executor->getSchemaVersion();
     OATPP_LOGD("ImageDb", "Migration - OK. Version=%lld.", version);
   }
+
+  QUERY(enableForeignKey,
+        "PRAGMA foreign_keys = ON;")
 
   QUERY(createImage,
         "INSERT INTO images"

@@ -1,14 +1,13 @@
 #pragma once
 
-#include <tbb/task_group.h>
-#include <functional>
+#include "Scheduler/SchedulerQueue.hpp"
 
 class SchedulerService {
 private:
-  tbb::task_group tg;
+  SchedulerQueue queue;
 
 public:
   void schedule(std::function<void()> task) {
-    tg.run(task);
+    queue.push(task);
   }
 };

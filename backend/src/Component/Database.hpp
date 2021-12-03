@@ -22,22 +22,6 @@ public:
   }());
 
   /**
-   * Create image client
-   */
-  OATPP_CREATE_COMPONENT(std::shared_ptr<ImageDb>, imageDb)([] {
-
-    /* Get database ConnectionProvider component */
-    OATPP_COMPONENT(std::shared_ptr<oatpp::provider::Provider<oatpp::sqlite::Connection>>, connectionProvider);
-
-    /* Create database-specific Executor */
-    auto executor = std::make_shared<oatpp::sqlite::Executor>(connectionProvider);
-
-    /* Create MyClient database client */
-    return std::make_shared<ImageDb>(executor);
-
-  }());
-
-  /**
    * Create user client
    */
   OATPP_CREATE_COMPONENT(std::shared_ptr<UserDb>, userDb)([] {
@@ -50,6 +34,22 @@ public:
 
     /* Create MyClient database client */
     return std::make_shared<UserDb>(executor);
+
+  }());
+
+  /**
+   * Create image client
+   */
+  OATPP_CREATE_COMPONENT(std::shared_ptr<ImageDb>, imageDb)([] {
+
+    /* Get database ConnectionProvider component */
+    OATPP_COMPONENT(std::shared_ptr<oatpp::provider::Provider<oatpp::sqlite::Connection>>, connectionProvider);
+
+    /* Create database-specific Executor */
+    auto executor = std::make_shared<oatpp::sqlite::Executor>(connectionProvider);
+
+    /* Create MyClient database client */
+    return std::make_shared<ImageDb>(executor);
 
   }());
 

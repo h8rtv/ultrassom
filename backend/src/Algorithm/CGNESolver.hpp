@@ -9,5 +9,5 @@ private:
 public:
   CGNESolver(const ModelMatrix& modelMatrix, Settings::Config config = Settings::Config())
   : ISolver(modelMatrix, config) {};
-  Eigen::VectorXd solve(const Eigen::VectorXd& g);
+  std::pair<Eigen::VectorXd, uint> solve(const Eigen::VectorXd& g);
 };

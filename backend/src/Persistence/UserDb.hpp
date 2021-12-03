@@ -12,7 +12,7 @@ public:
   UserDb(const std::shared_ptr<oatpp::orm::Executor>& executor)
     : oatpp::orm::DbClient(executor)
   {
-    oatpp::orm::SchemaMigration migration(executor);
+    oatpp::orm::SchemaMigration migration(executor, "users");
     migration.addFile(1, DATABASE_MIGRATIONS "/001_users_init.sql");
     migration.migrate();
 

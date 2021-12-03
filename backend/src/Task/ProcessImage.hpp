@@ -48,17 +48,20 @@ public:
     auto solver = create_solver();
     Eigen::VectorXd g = CSVParser(data).parse();
     auto finish = Util::Time::time_it();
-    Eigen::VectorXd f = solver->solve(g);
-    float time = finish();
+    auto [f, iterations] = solver->solve(g);
+    auto [time, start, end] = finish();
 
     std::string filename = Util::Uuid::generate_uuid_v4() + ".png";
     OATPP_LOGI("ProcessImage", "Generating image: %s", filename.c_str());
     OATPP_LOGI("ProcessImage", "Time: %f", time);
     Util::ImageGeneration::save_image(f, filename);
 
+    image->start_date = start.c_str();
+    image->end_date = end.c_str();
+    image->data = filename.c_str();
+    image->time = time;
+    image->iterations = time;
     try {
-      image->data = filename.c_str();
-      image->time = time;
       auto dbResult = imageDb->updateImage(image);
     } catch (const std::runtime_error e) {
       OATPP_LOGE("ProcessImage", "DB Error: %s", e.what());

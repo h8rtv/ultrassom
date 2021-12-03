@@ -9,7 +9,7 @@
 
 #include "ModelMatrix.hpp"
 #include "Database.hpp"
-#include "Schedule.hpp"
+#include "Service.hpp"
 
 /**
  *  Class which creates and holds Application components and registers components in oatpp::base::Environment
@@ -19,14 +19,7 @@ class AppComponent {
 public:
   ModelMatrixComponent modelMatrixComponent;
   DatabaseComponent databaseComponent;
-  ScheduleComponent scheduleComponent;
-
-  /**
-   *  Create StaticFileManager component
-   */
-  OATPP_CREATE_COMPONENT(std::shared_ptr<StaticFilesService>, staticFilesService)([] {
-    return std::make_shared<StaticFilesService>(OUTPUT_DIR);
-  }());
+  ServiceComponent serviceComponent;
 
   /**
    *  Create ConnectionProvider component which listens on the port

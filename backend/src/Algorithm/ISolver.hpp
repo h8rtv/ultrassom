@@ -13,5 +13,5 @@ protected:
     config(config)
   {};
 public:
-  virtual Eigen::VectorXd solve(const Eigen::VectorXd& g) = 0; 
+  virtual std::pair<Eigen::VectorXd, uint> solve(const Eigen::VectorXd& g) = 0; 
 };

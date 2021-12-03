@@ -42,11 +42,11 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
  - [x] Testar com a nova matriz modelo H
  - [x] Trocar cout por logs do oatpp
  - [x] Otimizar algoritmos mantendo em cache a transposta
- - [ ] Rotas do usuário
- - [ ] Terminar campos de imagens
+ - [x] Rotas do usuário
+ - [x] Terminar campos de imagens
  - [x] Servir as imagens
  - [x] Enum qualidade de imagem
- - [ ] Sistema de notificações
+ - [ ] Sistema de notificações via ws
  - [ ] Atualizar documentação
 
 # API

@@ -19,7 +19,7 @@
 class ImageController : public oatpp::web::server::api::ApiController {
 private:
   OATPP_COMPONENT(std::shared_ptr<StaticFilesService>, staticFilesService);
-  ImageService imageService;
+  OATPP_COMPONENT(std::shared_ptr<ImageService>, imageService);
 
 public:
   /**
@@ -33,13 +33,20 @@ public:
   ENDPOINT("GET", "/users/{user_id}/images", getImagesByUser,
            PATH(Int32, user_id, "user_id"))
   {
-    return createDtoResponse(Status::CODE_200, imageService.getImagesByUser(user_id));
+    return createDtoResponse(Status::CODE_200, imageService->getImagesByUser(user_id));
   }
 
   ENDPOINT("POST", "/images", createImage,
            BODY_DTO(Object<Image>, imageDto))
   {
-    return createDtoResponse(Status::CODE_201, imageService.createImage(imageDto));
+    return createDtoResponse(Status::CODE_201, imageService->createImage(imageDto));
+  }
+
+  ENDPOINT("POST", "/images/{image_id}/signal", processSignal,
+           BODY_STRING(String, body),
+           PATH(Int32, image_id, "image_id"))
+  {
+    return createDtoResponse(Status::CODE_202, imageService->processSignal(image_id, body->std_str()));
   }
 
   ENDPOINT("GET", "/images/*", getStaticImage,
@@ -66,14 +73,6 @@ public:
 
     return response;
   }
-
-  ENDPOINT("POST", "/images/{image_id}/signal", processSignal,
-           BODY_STRING(String, body),
-           PATH(Int32, image_id, "image_id"))
-  {
-    return createDtoResponse(Status::CODE_202, imageService.processSignal(image_id, body->std_str()));
-  }
-  
 };
 
 #include OATPP_CODEGEN_END(ApiController) //<-- End Codegen

@@ -21,6 +21,7 @@ public:
   oatpp::Object<Image> createImage(const oatpp::Object<Image>& dto) {
     dto->height = 60;
     dto->width = 60;
+    imageDb->enableForeignKey();
     auto dbResult = imageDb->createImage(dto);
     OATPP_ASSERT_HTTP(dbResult->isSuccess(), Status::CODE_500, dbResult->getErrorMessage());
 
@@ -30,7 +31,7 @@ public:
   }
 
   oatpp::Object<Image> getImageById(v_int32 id) {
-    auto dbResult = imageDb->getImageById(id, nullptr);
+    auto dbResult = imageDb->getImageById(id);
     OATPP_ASSERT_HTTP(dbResult->isSuccess(), Status::CODE_500, dbResult->getErrorMessage());
     OATPP_ASSERT_HTTP(dbResult->hasMoreToFetch(), Status::CODE_404, "Image not found");
 

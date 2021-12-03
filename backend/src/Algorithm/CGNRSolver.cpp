@@ -6,7 +6,8 @@ bool CGNRSolver::registered = AlgorithmFactory::register_algorithm<CGNRSolver>(
   }
 );
 
-Eigen::VectorXd CGNRSolver::solve(const Eigen::VectorXd& g) {
+std::pair<Eigen::VectorXd, uint> CGNRSolver::solve(const Eigen::VectorXd& g) {
+  uint i;
   const Eigen::MatrixXd& H = modelMatrix.H;
   const Eigen::MatrixXd& Ht = modelMatrix.Ht;
   Eigen::VectorXd f = Eigen::VectorXd::Zero(H.cols());
@@ -14,7 +15,7 @@ Eigen::VectorXd CGNRSolver::solve(const Eigen::VectorXd& g) {
   Eigen::VectorXd z = Ht * r;
   Eigen::VectorXd p = z;
   double r_old_norm = r.norm();
-  for (int i = 0; i < config.maxIterations; i++) {
+  for (i = 0; i < config.maxIterations; i++) {
     auto w = H * p;
     double z_norm = std::pow(z.norm(), 2);
     double alpha =  z_norm / std::pow(w.norm(), 2);
@@ -28,5 +29,5 @@ Eigen::VectorXd CGNRSolver::solve(const Eigen::VectorXd& g) {
     r_old_norm = r.norm();
   }
 
-  return f;
+  return { f, i + 1 };
 }
