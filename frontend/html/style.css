@@ -1,25 +1,126 @@
-table {
+:root {
+  --first: #c4c4c4;
+  --second: #14171A;
+  --second-transparency: rgba(20, 23, 26, 0.8);
+  --third: #404040	;
+  --fourth: #303030;
+}
+* + * {
+  margin-top: 1.5em;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: calc(60% + 0.8vmin);
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  background: var(--first);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: grid;
+  height: 100vh;
+  margin: 0;
+  place-items: center center; 
+  line-height: 1.5;
+}
+
+.styled-table {
   border-collapse: collapse;
-  border-spacing: 0;
-  border: 1px solid #ccc;
+  margin: 25px 0;
   font-size: 0.9em;
-  width: 100%;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+}
+.styled-table tr {
+  color: #ffffff;
+  text-align: left;
+}
+.styled-table tr th {
+  background-color: var(--second);
+  padding: 10px 20px;
+  border-bottom: 2px solid #ffffff;
 }
 
-table tr {
-    border-top: 1px solid #ccc;
-    background-color: #fff;
+.styled-table tr {
+  background-color: var(--third);
+
+  text-align: center;
+  border-bottom: 1px solid #dddddd;
 }
 
-table tr:nth-child(even) {
-  background: #eee;
+.styled-table tr:nth-of-type(even) {
+  background-color: var(--fourth);
 }
 
-table tr:nth-child(odd) {
-  background: #fff;
+.styled-table tr:last-of-type {
+  border-bottom: 2px solid #ff0000;
 }
 
-table td {
-    text-align: center;
-    vertical-align: middle;
+.styled-table tr.active-row {
+  font-weight: bold;
+  color: #ff0000;
+}
+
+.main {
+  display: flex;
+  width: 40vw;
+  height: 20vw;
+  justify-content: center;
+  background: var(--second-transparency);
+  opacity: 0.8;
+  border-radius: 10px;
+  margin-top:-30vh;
+}
+
+.auth-info {
+  text-align: center;
+  position: relative;
+  margin-top:-25vh;
+}
+
+.logged {
+  margin-left: 30vw;
+  height: 8vw;
+}
+
+.button {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--second);
+  font-size: 12px;
+  padding: 8px;
+  border: none;
+  min-width: 50px;
+  border-radius: 10px;
+}
+
+.account {
+
+  margin-left: 2vw;
+}
+
+.refresh {
+  margin-top: -3px;
+}
+
+.styled-table tr:hover{
+  filter:brightness(0.8);
+}
+
+.button:hover {
+  filter:brightness(0.8);
+}
+
+.button:active {
+  filter:brightness(0.5);
 }

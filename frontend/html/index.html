@@ -14,47 +14,50 @@
     <h1>Ultrassom</h1>
 
     <div class="page" id="login">
-        <div id="login-form">
-            <h2>Login</h2>
+        <div class="main">
+        </div>
+        <div class="auth-info" id="login-form">
+            <h2 class="login-text">Login</h2>
             <input type="text" id="username" placeholder="Username" required>
-            <input type="button" value="Login" onclick="handleLogin()">
+            <input class="button" type="button" value="Login" onclick="handleLogin()">
         </div>
     </div>
 
     <div class="page" id="main">
-        <div id="form">
-            <input type="button" id="select" value="Select File" onclick="pywebview.api.open_file_dialog()" />
-            <input type="button" id="send" value="Process" onclick="pywebview.api.process_file()" />
-        </div>
+        <div class="main logged">
+            <div id="form">
+                <input class="button account" type="button" id="select" value="Select File"
+                    onclick="pywebview.api.open_file_dialog()" />
+                <input class="button account" type="button" id="send" value="Process" onclick="pywebview.api.process_file()" />
+            </div>
 
-        <div>
-            <button onclick="pywebview.api.refresh_images();">Refresh images</button>
+            <div>
+                <button class="button account refresh" onclick="pywebview.api.refresh_images();">Refresh images</button>
+            </div>
         </div>
-
-        <div id="result">
-            <!-- Manipulated by JavaScript -->
-            <table id="table">
-                <tr>
-                    <th>Usuário</th>
-                    <th>Algoritmo</th>
-                    <th>Data de início</th>
-                    <th>Data de fim</th>
-                    <th>Iterações</th>
-                    <th>Tempo (s)</th>
-                    <th>Imagem</th>
-                </tr>
-            </table>
+            <div id="result">
+                <!-- Manipulated by JavaScript -->
+                <table class="styled-table" id="table">
+                    <tr>
+                        <th>Usuário</th>
+                        <th>Algoritmo</th>
+                        <th>Data de início</th>
+                        <th>Data de fim</th>
+                        <th>Iterações</th>
+                        <th>Tempo (s)</th>
+                        <th>Imagem</th>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-
 </body>
 
 <script>
 
-function onLoad() {
-    document.getElementById("login").style.display = "block";
-    document.getElementById("main").style.display = "none";
-}
+    function onLoad() {
+        document.getElementById("login").style.display = "block";
+        document.getElementById("main").style.display = "none";
+    }
 
 </script>
 
