@@ -13,6 +13,7 @@ class Staging():
         self.current_window = None
         self.current_username = 'user'
         self.selected_filepath = None
+        self.user_id = -1
 
         self.api = API()
 
@@ -58,22 +59,26 @@ class Staging():
     def send_image(self):
         try:
             if self.current_array is None:
-                print('WARNING: No array to send')
                 return
 
             # Create body of the message as JSON
             body = {
-                'data': self.current_array.tolist(),
-                'name': self.current_username,
-                'algo': 'CGNE',
-                'size': {
-                    'width': 60,
-                    'height': 60
-                }
+                'user': self.user_id,
+                'algo': "CGNE",
+                'quality': 1,
             }
 
-            image_id = self.api.send_image(body)
-            print('New Image ID:', image_id)
+            print(body)
+
+            # convert array to string with \n separators
+            image_str = '\n'.join(map(str, self.current_array.flatten()))
+
+            image_id = self.api.send_image(body, image_str)
+
+            if image_id == -1:
+                return
+
+            print('Image sent with ID', image_id)
 
         except Exception as e:
             print('Error sending image:', e)
@@ -81,8 +86,8 @@ class Staging():
     def signal_gain(self, g):
         N = 64
         S = 794
-        for c in range(1, N + 1):
-            for l in range(1, S + 1):
+        for c in range(0, N):
+            for l in range(0, S):
                 y = 100 + 1 / 20 * (l) * np.sqrt(l)
                 index = l + S * c
                 g[index] = g[index] * y
@@ -95,23 +100,30 @@ class Staging():
         self.get_images()
 
     def login(self, username) -> bool:
+        result = self.api.create_user(username)
+
+        if result == -1:
+            print('User already exists')
+            return False
+
         self.current_username = username
+        self.user_id = result
         self.refresh_images()
 
-        print('Logged in as', username)
+        print('Logged in as', username, 'with ID', self.user_id)
         return True
 
     def get_images(self):
         try:
             self.window.evaluate_js(f'clear_images()')
 
-            images = self.api.mock_get_images(self.current_username)
-            print(f'Got {len(images["images"])} images from user "{self.current_username}".')
+            images = self.api.get_images(self.user_id, self.current_username)
+            images_len = len(images)
 
-            # remove data:image start
-            for image in images['images']:
-                image['img'] = image['img'].replace("data:image/png;base64,", "")
-                image['img'] = image['img'].replace("data:image/png;base64", "")
+            if images_len == 0:
+                return
+
+            print(f'Got {images_len} images from user')
 
             jsonStr = json.dumps(images)
             self.window.evaluate_js(f'create_images(\'{jsonStr}\')')
