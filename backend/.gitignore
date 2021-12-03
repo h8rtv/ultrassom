@@ -1,7 +1,9 @@
 ultrassom
 out/**
 .vscode
-data/** 
+data/**
 !data/.gitkeep
 !out/.gitkeep
 /build
+__pycache__
+db.sqlite

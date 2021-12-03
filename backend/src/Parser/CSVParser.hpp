@@ -1,47 +1,23 @@
 #pragma once
 
-#include <fstream>
 #include <algorithm>
 #include <execution>
-#include <string>
 #include <string_view>
-#include <filesystem>
 
 #include <Eigen/Dense>
 
 #include "IParser.hpp"
 
-class CSVFileToMatrixParser: public IParser<Eigen::MatrixXd> {
+class CSVParser: public IParser<Eigen::MatrixXd> {
 private:
-  const std::filesystem::path& file_path;
-  std::ifstream file;
   char separator;
+  std::string_view file_content;
 
   [[nodiscard]]
-  int get_columns() {
-    std::string line;
-    std::getline(file, line);
+  virtual size_t get_column_count(std::string_view line) {
     size_t x = std::count(line.begin(), line.end(), separator) + 1;
-    file.seekg(0, std::ios::beg);
+
     return x;
-  }
-
-  [[nodiscard]]
-  int get_rows() {
-    std::istreambuf_iterator<char> it_file_start(file);
-    std::istreambuf_iterator<char> it_file_end;
-    size_t y = std::count(it_file_start, it_file_end, '\n');
-    file.seekg(0, std::ios::beg);
-    return y;
-  }
-
-  [[nodiscard]]
-  std::string get_file_content() {
-    std::string str(static_cast<size_t>(std::filesystem::file_size(file_path)), '\0');
-
-    file.read(str.data(), str.size());
-
-    return str;
   }
 
   [[nodiscard]]
@@ -96,20 +72,15 @@ private:
   }
 
 public:
-  CSVFileToMatrixParser(const std::filesystem::path& file_path, char separator = ',')
-  : file_path(file_path),
-    file(file_path),
-    separator(separator) {}
-
-  ~CSVFileToMatrixParser() {
-    file.close();
-  }
+  CSVParser(std::string_view file_content, char separator = ',') : file_content(file_content), separator(separator) {}
+  ~CSVParser() {}
 
   [[nodiscard]]
   Eigen::MatrixXd parse() {
-    Eigen::MatrixXd m(get_rows(), get_columns());
-    std::string file_content = get_file_content();
     std::vector<std::string_view> lines = split_string(file_content, '\n');
+    size_t row = lines.size();
+    size_t col = get_column_count(lines[0]);
+    Eigen::MatrixXd m(row, col);
     std::vector<std::pair<size_t, std::string_view>> indexed_lines = get_indexed_lines(lines);
     parallel_parse_lines(m, indexed_lines);
 

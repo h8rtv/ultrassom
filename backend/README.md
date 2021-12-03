@@ -35,12 +35,19 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
 ```
 
 # TODO
- - [ ] Fazer o parser ler números no formato X,XXXE-XX
- - [ ] Fazer o parser ler de blob ou base64 ou o que a gente usar para fazer o upload da imagem
+ - [x] Fazer o parser ler números no formato X,XXXE-XX
  - [x] Tentar paralelisar o parser
  - [x] Gerar um relatório com custo de memória e tempo
- - [ ] Fazer servidor
- - [ ] Testar com a nova matriz modelo H
+ - [x] Fazer servidor
+ - [x] Testar com a nova matriz modelo H
+ - [x] Trocar cout por logs do oatpp
+ - [x] Otimizar algoritmos mantendo em cache a transposta
+ - [x] Rotas do usuário
+ - [x] Terminar campos de imagens
+ - [x] Servir as imagens
+ - [x] Enum qualidade de imagem
+ - [ ] Sistema de notificações via ws
+ - [ ] Atualizar documentação
 
 # API
 ## Cadastrar imagem POST /images
@@ -68,4 +75,4 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
       - `height`: Inteiro, altura da imagem;
       - `width`: Inteiro, largura da imagem;
     - `iterations`: Inteiro, numero de iterações executadas;
-    - `reconstruction_time`: Timestamp, tempo de reconstrução **utilizando duas bibliotecas distintas**.
+    - `time`: Timestamp, tempo de reconstrução.

@@ -2,7 +2,7 @@
 eigen/3.4.0
 imagemagick/7.0.11-14
 tbb/2020.3
-sqlite3/3.36.0
+oatpp-sqlite/1.2.5
 oatpp/1.2.5
 
 [generators]
