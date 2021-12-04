@@ -48,8 +48,15 @@ public:
 
   ENDPOINT("POST", "/images/{image_id}/signal", processSignal,
            BODY_STRING(String, body),
+           REQUEST(std::shared_ptr<IncomingRequest>, request),
            PATH(Int32, image_id, "image_id"))
   {
+    auto contentType = request->getHeaders().get(Header::CONTENT_TYPE);
+    OATPP_ASSERT_HTTP(
+      contentType == "text/csv",
+      Status::CODE_415,
+      "Unsupported Content Type"
+    );
     return createDtoResponse(Status::CODE_202, imageService->processSignal(image_id, body->std_str()));
   }
 
