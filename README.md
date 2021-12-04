@@ -44,7 +44,7 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
  - [x] Terminar campos de imagens
  - [x] Servir as imagens
  - [x] Enum qualidade de imagem
- - [ ] Sistema de notificações via ws
+ - [x] Sistema de notificações via ws
  - [x] Atualizar documentação
 
 ## API

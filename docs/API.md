@@ -79,3 +79,19 @@
       - `iterations`: Int. Número de iterações. *(Nulo se a imagem ainda não foi processada)*.
       - `time`: Float. Tempo de processamento em segundos. *(Nulo se a imagem ainda não foi processada)*.
       - `user`: Int. ID do usuário.
+
+## Receber notificações por WS
+### [GET] /users/{id}/ws
+- Request:
+  - URL:
+    - `id`: String. ID do usuário.
+- Events:
+  - `START_PROCESSING`: JSON. Notifica que o processamento da imagem foi iniciado.
+    - payload:
+      - `type`: String. Nome do evento
+      - `image`: Image. Igual ao Body das outras rotas de imagem.
+  - `FINISH_PROCESSING`: JSON. Notifica que o processamento da imagem foi finalizado.
+    - payload:
+      - `type`: String. Nome do evento
+      - `image`: Image. Igual ao Body das outras rotas de imagem.
+
