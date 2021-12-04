@@ -28,7 +28,7 @@ body {
   display: grid;
   height: 100vh;
   margin: 0;
-  place-items: center center; 
+  place-items: center center;
   line-height: 1.5;
 }
 
@@ -73,7 +73,7 @@ body {
 
 .main {
   display: flex;
-  width: 40vw;
+  width: 60vw;
   height: 20vw;
   justify-content: center;
   background: var(--second-transparency);
@@ -105,7 +105,6 @@ body {
 }
 
 .account {
-
   margin-left: 2vw;
 }
 

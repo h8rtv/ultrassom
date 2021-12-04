@@ -10,14 +10,15 @@ function handleLogin() {
 
 function process_done(){
     document.querySelector("#form #send").disabled = false;
-    document.querySelector("#form #send").value = "Send image";
+    document.querySelector("#form #send").value = "Enviar imagem";
     document.querySelector("#form #send").onclick = function(){
-        pywebview.api.send_image();
-    }
-}
+        let quality = document.querySelector("#form #quality").value;
+        let algo = document.querySelector("#form #algo").value;
 
-function file_selected(isSelected) {
-    // document.querySelector("#form #select").disabled = isSelected;
+        pywebview.api.send_image(quality, algo);
+        document.querySelector("#form #send").value = "Processar";
+        document.querySelector("#form #send").onclick = process_file;
+    }
 }
 
 function clear_images() {
@@ -29,8 +30,6 @@ function clear_images() {
 
 function create_images(data) {
     var json = JSON.parse(data);
-
-    pywebview.api.echo(data);
 
     var table = document.querySelector("#table");
     var tbody = document.createElement("tbody");
@@ -82,7 +81,7 @@ function create_images(data) {
             img.src = image["image_url"];
             td_img.appendChild(img);
         } else {
-            td_img.innerHTML = "Processando";
+            td_img.innerHTML = "Processando...";
         }
 
         tr.appendChild(td_img);
@@ -115,4 +114,12 @@ function formatSeconds(seconds) {
 
 function formatDate(date) {
     return new Date(date).toLocaleString();
+}
+
+function open_file_dialog() {
+    pywebview.api.open_file_dialog();
+}
+
+function process_file() {
+    pywebview.api.process_file();
 }

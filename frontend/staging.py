@@ -1,8 +1,8 @@
 import json
 import webview
-import numpy as np
 
 from api import API
+from processing import Processing
 
 class Staging():
 
@@ -16,26 +16,18 @@ class Staging():
         self.user_id = -1
 
         self.api = API()
+        self.processing = Processing()
 
     def open_file_dialog(self):
-        global selected_filepath
-
         file_types = ('All files (*.*)',)
 
         file = self.window.create_file_dialog(webview.OPEN_DIALOG, allow_multiple=False, file_types=file_types)
         file = file[0] if file else None
         self.selected_filepath = file
 
-        if file is not None:
-            print('File selected:', file)
-            self.window.evaluate_js('file_selected(true)')
-        else:
-            print('No file selected')
-            self.window.evaluate_js('file_selected(false)')
-
     def process_file(self):
         try:
-            file_contents = self.read_file(self.selected_filepath)
+            file_contents = self.processing.read_file(self.selected_filepath)
             file_contents = file_contents.split('\n')
 
             lines = []
@@ -44,19 +36,15 @@ class Staging():
                 if len(line) > 0:
                     lines.append(line)
 
-            # Convert the lines to a numpy array
-            self.current_array = np.array(lines, dtype=np.float32)
-
-            # Process the array
-            self.signal_gain(self.current_array)
+            self.current_array = self.processing.lines_to_array(lines)
+            self.current_array = self.processing.signal_gain(self.current_array)
 
             # Notify webview that we're done
-            print('Done processing file')
             self.window.evaluate_js('process_done()')
         except Exception as e:
             print('Error processing file:', e)
 
-    def send_image(self):
+    def send_image(self, quality_index, algo):
         try:
             if self.current_array is None:
                 return
@@ -64,11 +52,9 @@ class Staging():
             # Create body of the message as JSON
             body = {
                 'user': self.user_id,
-                'algo': "CGNE",
-                'quality': 1,
+                'algo': algo,
+                'quality': int(quality_index),
             }
-
-            print(body)
 
             # convert array to string with \n separators
             image_str = '\n'.join(map(str, self.current_array.flatten()))
@@ -82,19 +68,6 @@ class Staging():
 
         except Exception as e:
             print('Error sending image:', e)
-
-    def signal_gain(self, g):
-        N = 64
-        S = 794
-        for c in range(0, N):
-            for l in range(0, S):
-                y = 100 + 1 / 20 * (l) * np.sqrt(l)
-                index = l + S * c
-                g[index] = g[index] * y
-
-    def read_file(self, file_name):
-        with open(file_name, 'rb') as f:
-            return f.read().decode('utf-8')
 
     def refresh_images(self):
         self.get_images()
@@ -118,12 +91,9 @@ class Staging():
             self.window.evaluate_js(f'clear_images()')
 
             images = self.api.get_images(self.user_id, self.current_username)
-            images_len = len(images)
 
-            if images_len == 0:
+            if len(images) == 0:
                 return
-
-            print(f'Got {images_len} images from user')
 
             jsonStr = json.dumps(images)
             self.window.evaluate_js(f'create_images(\'{jsonStr}\')')
