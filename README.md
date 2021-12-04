@@ -45,32 +45,7 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
  - [x] Servir as imagens
  - [x] Enum qualidade de imagem
  - [ ] Sistema de notificações via ws
- - [ ] Atualizar documentação
+ - [x] Atualizar documentação
 
-# API
-## Cadastrar imagem POST /images
-### Request:
-  - `name`: String, Identificação do usuário;
-  - `algo`: String, ["CGNE", "CGNR"], Identificação do algoritmo utilizado;
-  - `data`: Vetor, vetor de dados de ultrassom (originalmente .csv);
-  - `size`:
-    - `height`: Inteiro, altura da imagem;
-    - `width`: Inteiro, largura da imagem;
-
-### Response:
-  - `image_id`: Inteiro
-
-## Retornar imagens de um usuário GET /users/:name/images
-
-### Response:
-  - `images`: Lista:
-    - `name`: String, Identificação do usuário;
-    - `algo`: String, ["CGNE", "CGNR"], Identificação do algoritmo utilizado;
-    - `start_date`: String, Data e hora do início da reconstrução
-    - `end_date`: Vetor, Data e hora do término da reconstrução;
-    - `img`: Blob, dados de ultrassom processado;
-    - `size`:
-      - `height`: Inteiro, altura da imagem;
-      - `width`: Inteiro, largura da imagem;
-    - `iterations`: Inteiro, numero de iterações executadas;
-    - `time`: Timestamp, tempo de reconstrução.
+## API
+A documentação para API REST pode ser encontrada em [docs/API.md](docs/API.md)
