@@ -4,7 +4,7 @@ import os
 class API():
 
     def __init__(self) -> None:
-        self.BASE_URL = os.getenv('BASE_URL') or 'http://localhost:8080'
+        self.BASE_URL = os.getenv('BASE_URL') or 'http://localhost:8000'
 
     # Send a POST request to /images
     def send_image(self, body: dict, image: str) -> int:

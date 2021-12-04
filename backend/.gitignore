@@ -1,9 +1,0 @@
-ultrassom
-out/**
-.vscode
-data/**
-!data/.gitkeep
-!out/.gitkeep
-/build
-__pycache__
-db.sqlite

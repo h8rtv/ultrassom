@@ -1,13 +1,11 @@
 # ultrassom
 Trabalho de CSM30 - Desenvolvimento Integrado de Sistemas
 
-A pasta "data" vocês têm que baixar no PC de vocês lá do moodle, muito pesado...
-
 # Instalação
 
 ### Dependências:
-  - CMake
-  - Conan
+- CMake
+- Conan
 
 ```sh
 # Para fazer funcionar o Magick++, ele precisa usar a libstdc++11 ao invés de libstdc++
