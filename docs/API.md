@@ -49,7 +49,7 @@
   - URL:
     - `id`: String. UID da imagem retornada quando criada.
   - Payload:
-    - *Arquivo CSV em text/plain*.
+    - *Arquivo CSV em text/csv*.
 
 ## Requisitar imagem em formato PNG
 ### [GET] /images/{id}
