@@ -4,10 +4,18 @@
 #include "Service/ImageService.hpp"
 #include "Service/UserService.hpp"
 #include "Service/StaticFilesService.hpp"
+#include "Service/WS/ClientConnectionListener.hpp"
 
 class ServiceComponent {
 public:
 
+  /**
+   *  Create Websocket ClientConnectionListener component 
+   */
+  OATPP_CREATE_COMPONENT(std::shared_ptr<ClientConnectionListener>, clientsListener)([] {
+    return std::make_shared<ClientConnectionListener>();
+  }());
+  
   /**
    *  Create Scheduler service compoenent
    */

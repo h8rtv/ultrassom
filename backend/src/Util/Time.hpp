@@ -6,7 +6,7 @@
 
 namespace Util::Time {
   using fsec = std::chrono::duration<float>;
-  using TimeInfo = std::tuple<float, std::string, std::string>;
+  using TimeInfo = std::pair<float, std::string>;
 
   std::string toString(std::chrono::system_clock::time_point time) {
     std::time_t t = std::chrono::system_clock::to_time_t(time);
@@ -16,12 +16,17 @@ namespace Util::Time {
   }
 
   [[nodiscard]]
-  std::function<TimeInfo()> time_it() {
+  std::pair<std::string, std::function<TimeInfo()>> time_it() {
     auto start = std::chrono::high_resolution_clock::now();
-    return [start]() {
+    auto finish = [start]() {
       auto end = std::chrono::high_resolution_clock::now();
       fsec duration = end - start;
-      return std::make_tuple(duration.count(), toString(start), toString(end));
+      return std::make_pair(duration.count(), toString(end));
+    };
+
+    return {
+      toString(start),
+      finish
     };
   }
 }

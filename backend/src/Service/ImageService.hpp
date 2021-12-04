@@ -3,11 +3,15 @@
 #include <oatpp/web/protocol/http/Http.hpp>
 #include <oatpp/core/macro/component.hpp>
 
-#include "Task/ProcessImage.hpp"
-#include "SchedulerService.hpp"
+#include "WS/ClientConnectionListener.hpp"
 #include "Persistence/ImageDb.hpp"
-#include "Dto/Image.hpp"
+#include "SchedulerService.hpp"
 #include "ModelMatrix.hpp"
+
+#include "Task/ProcessImage.hpp"
+#include "Task/ProcessImageEmitter.hpp"
+
+#include "Dto/Image.hpp"
 
 class ImageService {
 private:
@@ -16,6 +20,7 @@ private:
   OATPP_COMPONENT(std::shared_ptr<ImageDb>, imageDb); // Inject database component
   OATPP_COMPONENT(std::shared_ptr<ModelMatrix>, modelMatrix); // Inject model matrix component
   OATPP_COMPONENT(std::shared_ptr<SchedulerService>, scheduler); // Inject task scheduler service
+  OATPP_COMPONENT(std::shared_ptr<ClientConnectionListener>, clientsListener); // Inject client connection listener
 
 public:
   oatpp::Object<Image> createImage(const oatpp::Object<Image>& dto) {
@@ -43,8 +48,10 @@ public:
 
   oatpp::Object<Image> processSignal(v_int32 id, std::string data) {
     auto image = getImageById(id);
+    auto client = clientsListener->getClient(image->user);
 
-    auto task = ProcessImage{image, data, *modelMatrix, imageDb};
+    auto eventEmitter = std::make_shared<ProcessImageEmitter>(client, imageDb);
+    auto task = ProcessImage{image, data, *modelMatrix, eventEmitter};
     scheduler->schedule(task);
     return image;
   }

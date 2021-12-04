@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <tbb/concurrent_queue.h>
 #include <tbb/task_group.h>
 
