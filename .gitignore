@@ -1,0 +1,11 @@
+.vscode
+__pycache__
+
+# Backend
+!data/.gitkeep
+!out/.gitkeep
+ultrassom
+*/out/**
+*/data/**
+build
+db.sqlite

@@ -26,13 +26,25 @@
     <div class="page" id="main">
         <div class="main logged">
             <div id="form">
-                <input class="button account" type="button" id="select" value="Select File"
-                    onclick="pywebview.api.open_file_dialog()" />
-                <input class="button account" type="button" id="send" value="Process" onclick="pywebview.api.process_file()" />
+                <input class="button account" type="button" id="select" value="Selecionar arquivo" onclick="open_file_dialog()" />
+                <input class="button account" type="button" id="send" value="Processar" onclick="process_file()" />
+
+                <label for="quality">Qualidade desejada:</label>
+                <select name="quality" id="quality">
+                    <option value="0">Baixa</option>
+                    <option selected value="1">Média</option>
+                    <option value="2">Alta</option>
+                </select>
+
+                <label for="algo">Algoritmo:</label>
+                <select name="algo" id="algo">
+                    <option value="CGNE">CGNE</option>
+                    <option value="CGNR">CGNR</option>
+                </select>
             </div>
 
             <div>
-                <button class="button account refresh" onclick="pywebview.api.refresh_images();">Refresh images</button>
+                <button class="button account refresh" onclick="pywebview.api.refresh_images();">Atualizar imagens</button>
             </div>
         </div>
             <div id="result">
@@ -44,6 +56,7 @@
                         <th>Data de início</th>
                         <th>Data de fim</th>
                         <th>Iterações</th>
+                        <th>Qualidade</th>
                         <th>Tempo (s)</th>
                         <th>Imagem</th>
                     </tr>
