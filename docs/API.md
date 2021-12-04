@@ -81,7 +81,7 @@
       - `user`: Int. ID do usuário.
 
 ## Receber notificações por WS
-### [GET] /users/{id}/ws
+### [WS] /users/{id}/ws
 - Request:
   - URL:
     - `id`: String. ID do usuário.
