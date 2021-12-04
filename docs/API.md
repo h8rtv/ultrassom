@@ -11,6 +11,16 @@
     - `id`: Int. ID do usuário.
     - `name`: String. Nome do usuário.
 
+## Requisitar usuário
+### [GET] /users/{id}
+  - URL:
+    - `id`: String. UID da imagem retornada quando criada.
+- Response:
+  - Status: 200.
+  - Body:
+    - `id`: Int. ID do usuário.
+    - `name`: String. Nome do usuário.
+
 ## Criar imagem no servidor
 ### [POST] /images
 - Request:
