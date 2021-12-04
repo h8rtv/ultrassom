@@ -14,7 +14,7 @@ add_definitions(
   ## Path to model matrix
   -DMODEL_MATRIX="${CMAKE_CURRENT_SOURCE_DIR}/data/H-1.csv"
   ## Number of parallel tasks
-  -DPARALLEL_TASKS=1
+  -DPARALLEL_TASKS=4
   ## Directory to persist the images
   -DOUTPUT_DIR="${CMAKE_CURRENT_SOURCE_DIR}/out/"
 )

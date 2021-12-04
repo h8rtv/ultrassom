@@ -1,10 +1,13 @@
 #pragma once
 
-#include <oatpp/web/server/api/ApiController.hpp>
 #include <oatpp/core/data/stream/FileStream.hpp>
 #include <oatpp/core/macro/codegen.hpp>
 #include <oatpp/core/macro/component.hpp>
+#include <oatpp/web/server/api/ApiController.hpp>
 #include <oatpp/web/protocol/http/outgoing/StreamingBody.hpp>
+
+#include <oatpp-websocket/Handshaker.hpp>
+#include <oatpp/network/ConnectionHandler.hpp>
 
 #include "Dto/Image.hpp"
 
@@ -20,6 +23,7 @@ class ImageController : public oatpp::web::server::api::ApiController {
 private:
   OATPP_COMPONENT(std::shared_ptr<StaticFilesService>, staticFilesService);
   OATPP_COMPONENT(std::shared_ptr<ImageService>, imageService);
+  OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, websocketConnectionHandler, "websocket");
 
 public:
   /**
@@ -73,6 +77,20 @@ public:
 
     return response;
   }
+
+  ENDPOINT("GET", "users/{user_id}/ws", imageEvents,
+           REQUEST(std::shared_ptr<IncomingRequest>, request),
+           PATH(String, user_id, "user_id")) {
+    auto response = oatpp::websocket::Handshaker::serversideHandshake(request->getHeaders(), websocketConnectionHandler);
+    auto parameters = std::make_shared<oatpp::network::ConnectionHandler::ParameterMap>();
+    
+    (*parameters)["user"] = user_id;
+
+    response->setConnectionUpgradeParameters(parameters);
+
+    return response;
+  };
+
 };
 
 #include OATPP_CODEGEN_END(ApiController) //<-- End Codegen
