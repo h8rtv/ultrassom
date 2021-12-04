@@ -17,7 +17,7 @@ class API():
         image_id = response_create.json()['id']
 
         ## Upload image content as plain text
-        response_signal = requests.post(f'{self.BASE_URL}/images/{image_id}/signal', data=image, headers={'Content-Type': 'text/plain'})
+        response_signal = requests.post(f'{self.BASE_URL}/images/{image_id}/signal', data=image, headers={'Content-Type': 'text/csv'})
         if response_signal.status_code != 202:
             print('Error while sending image:', response_signal.content)
             return -1
