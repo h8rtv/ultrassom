@@ -12,6 +12,20 @@ except ImportError:
   print('  pip install numpy')
   exit(1)
 
+try:
+  import requests
+except ImportError:
+  print('Requests is not installed. Please install it with:')
+  print('  pip install requests')
+  exit(1)
+
+try:
+  import websockets
+except ImportError:
+  print('Websocket is not installed. Please install it with:')
+  print('  pip install websockets')
+  exit(1)
+
 from staging import Staging
 
 def echo(arg1):

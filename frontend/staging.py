@@ -1,4 +1,5 @@
 import json
+from threading import Thread
 import webview
 
 from api import API
@@ -11,7 +12,7 @@ class Staging():
 
         self.current_array = None
         self.current_window = None
-        self.current_username = 'user'
+        self.current_username = None
         self.selected_filepath = None
         self.user_id = -1
 
@@ -85,8 +86,18 @@ class Staging():
         self.user_id = result
         self.refresh_images()
 
+        self.api.open_websocket(self.user_id, self.on_start_processing, self.on_finish_processing)
+
         print('Logged in as', username, 'with ID', self.user_id)
         return True
+
+    def on_start_processing(self, data: dict):
+        jsonStr = [data]
+        jsonStr = json.dumps(jsonStr)
+        self.window.evaluate_js(f'create_images(\'{jsonStr}\')')
+
+    def on_finish_processing(self, data: dict):
+        self.refresh_images()
 
     def get_images(self):
         try:

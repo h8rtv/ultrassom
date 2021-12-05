@@ -1,10 +1,18 @@
+from threading import Thread
 import requests
 import os
+import asyncio
+import websockets
+import json
 
 class API():
 
-    def __init__(self) -> None:
+    def __init__(self, ) -> None:
         self.BASE_URL = os.getenv('BASE_URL') or 'http://localhost:8000'
+        self.WS = None
+
+        self.start_processing = None
+        self.finish_processing = None
 
     # Send a POST request to /images
     def send_image(self, body: dict, image: str) -> int:
@@ -52,3 +60,32 @@ class API():
             return -1
 
         return response.json()['id']
+
+    # Create websocket connection with /users/:id/ws
+    def open_websocket(self, user_id: int, on_start_processing, on_finish_processing):
+        self.start_processing = on_start_processing
+        self.finish_processing = on_finish_processing
+
+        def run_thread(self):
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+            async def run(BASE_URL, on_message):
+                WS_BASE_URL = BASE_URL.replace('http', 'ws')
+                WS_URL = f'{WS_BASE_URL}/users/{user_id}/ws'
+                WS = await websockets.connect(WS_URL)
+                while True:
+                    message = await WS.recv()
+                    on_message(message)
+
+            asyncio.get_event_loop().run_until_complete(run(self.BASE_URL, self.on_message))
+
+        Thread(target=run_thread, args=(self,)).start()
+
+    def on_message(self, message):
+        content = json.loads(message)
+        evt = content['type']
+        if evt == 'START_PROCESSING' and self.start_processing != None:
+            self.start_processing(content['image'])
+        elif evt == 'FINISH_PROCESSING' and self.finish_processing != None:
+            self.finish_processing(content['image'])
