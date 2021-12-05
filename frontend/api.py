@@ -43,3 +43,12 @@ class API():
             return -1
 
         return response.json()['id']
+
+    # Send a GET request to /users with query parameter name
+    def get_user(self, name: str) -> int:
+        response = requests.get(f'{self.BASE_URL}/users', params={'name': name})
+
+        if response.status_code != 200:
+            return -1
+
+        return response.json()['id']

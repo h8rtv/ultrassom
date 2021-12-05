@@ -4,12 +4,13 @@ class Processing:
     def __init__(self) -> None:
         pass
 
+    # TODO: concertar o signal gain
     def signal_gain(self, g):
         N = 64
         S = 794
-        for c in range(1, N):
-            for l in range(1, S):
-                y = 100 + ((1 / 20) * (l) * np.sqrt(l))
+        for c in range(0, N):
+            for l in range(0, S):
+                y = 100 + 1 / 20 * (l + 1) * np.sqrt(l + 1)
                 index = l + (c * S)
                 g[index] = g[index] * y
         return g

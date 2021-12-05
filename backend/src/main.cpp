@@ -1,17 +1,5 @@
 #include "Server.hpp"
 
-void signal_gain(Eigen::VectorXd& g) {
-  uint N = 64;
-  uint S = 794;
-  for (uint c = 0; c < N; c++) {
-    for (uint l = 0; l < S; l++) {
-      uint y = 100 + 1 / 20 * (l + 1) * sqrt(l + 1);
-      uint index = l + S * c;
-      g(index) = g(index) * y;
-    }
-  }
-}
-
 int main() {
   oatpp::base::Environment::init();
 

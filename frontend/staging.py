@@ -73,11 +73,13 @@ class Staging():
         self.get_images()
 
     def login(self, username) -> bool:
-        result = self.api.create_user(username)
+        result = self.api.get_user(username)
 
         if result == -1:
-            print('User already exists')
-            return False
+            result = self.api.create_user(username)
+            if result == -1:
+                print('Error creating user')
+                return False
 
         self.current_username = username
         self.user_id = result
