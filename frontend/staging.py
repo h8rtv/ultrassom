@@ -73,6 +73,8 @@ class Staging():
     def refresh_images(self):
         self.get_images()
 
+        self.window.evaluate_js('refresh_images_done()')
+
     def login(self, username) -> bool:
         result = self.api.get_user(username)
 

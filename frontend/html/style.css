@@ -110,6 +110,15 @@ body {
   border-radius: 10px;
 }
 
+button:disabled,
+button[disabled],
+input:disabled,
+input[disabled]{
+  background-color: #fff;
+  color: #666666;
+  cursor: not-allowed;
+}
+
 .account {
   margin-left: 2vw;
 }

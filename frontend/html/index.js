@@ -11,6 +11,7 @@ function handleLogin() {
 }
 
 function process_done(){
+    document.querySelector("#form #select").disabled = true;
     document.querySelector("#form #send").disabled = false;
     document.querySelector("#form #send").value = "Enviar imagem";
     document.querySelector("#form #send").onclick = function(){
@@ -20,6 +21,7 @@ function process_done(){
         pywebview.api.send_image(quality, algo);
         document.querySelector("#form #send").value = "Processar";
         document.querySelector("#form #send").onclick = process_file;
+        document.querySelector("#form #select").disabled = false;
     }
 }
 
@@ -162,4 +164,13 @@ function open_file_dialog() {
 
 function process_file() {
     pywebview.api.process_file();
+}
+
+function refresh_images() {
+    pywebview.api.refresh_images();
+    document.querySelector("#main .refresh").disabled = true;
+}
+
+function refresh_images_done() {
+    document.querySelector("#main .refresh").disabled = false;
 }
