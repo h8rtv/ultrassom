@@ -8,7 +8,7 @@ import json
 class API():
 
     def __init__(self, ) -> None:
-        self.BASE_URL = os.getenv('BASE_URL') or 'http://localhost:8000'
+        self.BASE_URL = os.getenv('BASE_URL') or 'http://127.0.0.1:8000'
         self.WS = None
 
         self.start_processing = None
