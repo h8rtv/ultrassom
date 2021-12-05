@@ -32,4 +32,15 @@ public:
 
     return result[0];
   }
+
+  oatpp::Object<User> getUserByName(const oatpp::String& name) {
+    auto dbResult = userDb->getUserByName(name);
+    OATPP_ASSERT_HTTP(dbResult->isSuccess(), Status::CODE_500, dbResult->getErrorMessage());
+    OATPP_ASSERT_HTTP(dbResult->hasMoreToFetch(), Status::CODE_404, "User not found");
+
+    auto result = dbResult->fetch<oatpp::Vector<oatpp::Object<User>>>();
+    OATPP_ASSERT_HTTP(result->size() == 1, Status::CODE_500, "Unknown error");
+
+    return result[0];
+  }
 };

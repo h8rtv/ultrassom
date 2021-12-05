@@ -29,6 +29,10 @@ public:
   QUERY(getUserById,
         "SELECT * FROM users WHERE id=:id;",
         PARAM(oatpp::Int32, id))
+
+  QUERY(getUserByName,
+        "SELECT * FROM users WHERE name=:name;",
+        PARAM(oatpp::String, name))
 };
 
 #include OATPP_CODEGEN_END(DbClient)

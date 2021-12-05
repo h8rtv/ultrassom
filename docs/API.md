@@ -20,6 +20,14 @@
   - Body:
     - `id`: Int. ID do usuário.
     - `name`: String. Nome do usuário.
+### [GET] /users
+  - QUERY:
+    - `name`: String. Nome do usuário.
+- Response:
+  - Status: 200.
+  - Body:
+    - `id`: Int. ID do usuário.
+    - `name`: String. Nome do usuário.
 
 ## Criar imagem no servidor
 ### [POST] /images

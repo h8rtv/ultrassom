@@ -32,6 +32,12 @@ public:
     return createDtoResponse(Status::CODE_200, userService->getUserById(id));
   }
 
+  ENDPOINT("GET", "/users", getUserByName,
+           QUERY(String, name)) 
+  {
+    return createDtoResponse(Status::CODE_200, userService->getUserByName(name));
+  }
+
   ENDPOINT("POST", "/users", createUser,
            BODY_DTO(Object<User>, userDto))
   {
