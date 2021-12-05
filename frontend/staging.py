@@ -97,7 +97,8 @@ class Staging():
         self.window.evaluate_js(f'create_images(\'{jsonStr}\')')
 
     def on_finish_processing(self, data: dict):
-        self.refresh_images()
+        jsonStr = json.dumps(data)
+        self.window.evaluate_js(f'reload_image(\'{jsonStr}\')')
 
     def get_images(self):
         try:

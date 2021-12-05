@@ -84,7 +84,10 @@ class API():
     def on_message(self, message):
         content = json.loads(message)
         evt = content['type']
+        data = content['image']
         if evt == 'START_PROCESSING' and self.start_processing != None:
-            self.start_processing(content['image'])
+            self.start_processing(data)
         elif evt == 'FINISH_PROCESSING' and self.finish_processing != None:
-            self.finish_processing(content['image'])
+            if data["data"] != None:
+                data['image_url'] = f'{self.BASE_URL}/images/{data["data"]}'
+            self.finish_processing(data)
