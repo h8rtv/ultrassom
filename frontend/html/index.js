@@ -4,6 +4,8 @@ function handleLogin() {
         if (data == true) {
             document.querySelector("#login").style.display = "none";
             document.querySelector("#main").style.display = "block";
+            document.querySelector("#user").style.display = "block";
+            document.querySelector("#user").innerHTML = username;
         }
     });
 }
@@ -41,9 +43,9 @@ function create_images(data) {
         tr.className = "image-data";
         tbody.appendChild(tr);
 
-        var td_name = document.createElement("td");
-        td_name.innerHTML = image["username"];
-        tr.appendChild(td_name);
+        var td_id = document.createElement("td");
+        td_id.innerHTML = image["id"];
+        tr.appendChild(td_id);
 
         var td_algo = document.createElement("td");
         td_algo.innerHTML = image["algo"];

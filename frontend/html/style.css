@@ -71,6 +71,12 @@ body {
   color: #ff0000;
 }
 
+.title {
+  width: 100%;
+  text-align: center;
+  align-items: center;
+}
+
 .main {
   display: flex;
   width: 60vw;

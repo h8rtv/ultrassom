@@ -39,7 +39,6 @@ class API():
         for i in range(len(response)):
             if response[i]["data"] != None:
                 response[i]['image_url'] = f'{self.BASE_URL}/images/{response[i]["data"]}'
-            response[i]['username'] = user_name
 
         return response
 
