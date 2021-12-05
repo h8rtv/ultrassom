@@ -5,7 +5,7 @@
 
 class CGNESolver : public ISolver {
 private:
-  static bool registered;
+  REGISTER_ALGORITHM_DEF(CGNE);
 public:
   CGNESolver(const ModelMatrix& modelMatrix, Settings::Config config = Settings::Config())
   : ISolver(modelMatrix, config) {};

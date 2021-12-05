@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <map>
 #include <functional>
 #include <memory>
@@ -42,3 +43,12 @@ public:
   }
 
 };
+
+#define REGISTER_ALGORITHM_DEF(_name) static bool registered_ ## _name;
+
+#define REGISTER_ALGORITHM_IMPL(_name, _type) \
+  bool _type::registered_ ## _name = AlgorithmFactory::register_algorithm<_type>( \
+    #_name, \
+    [](const ModelMatrix& matrix, Settings::Config config) \
+    { return std::make_unique<_type>(matrix, config); } \
+  );

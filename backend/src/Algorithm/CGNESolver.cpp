@@ -1,10 +1,6 @@
 #include "CGNESolver.hpp"
 
-bool CGNESolver::registered = AlgorithmFactory::register_algorithm<CGNESolver>(
-  "CGNE", [](const ModelMatrix& matrix, Settings::Config config) {
-    return std::unique_ptr<CGNESolver>(new CGNESolver{matrix, config});
-  }
-);
+REGISTER_ALGORITHM_IMPL(CGNE, CGNESolver);
 
 std::pair<Eigen::VectorXd, uint> CGNESolver::solve(const Eigen::VectorXd& g) {
   uint i;

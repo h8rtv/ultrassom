@@ -1,10 +1,6 @@
 #include "CGNRSolver.hpp"
 
-bool CGNRSolver::registered = AlgorithmFactory::register_algorithm<CGNRSolver>(
-  "CGNR", [](const ModelMatrix& matrix, Settings::Config config) {
-    return std::unique_ptr<CGNRSolver>(new CGNRSolver{matrix, config});
-  }
-);
+REGISTER_ALGORITHM_IMPL(CGNR, CGNRSolver);
 
 std::pair<Eigen::VectorXd, uint> CGNRSolver::solve(const Eigen::VectorXd& g) {
   uint i;
