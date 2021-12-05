@@ -10,21 +10,6 @@ function handleLogin() {
     });
 }
 
-function process_done(){
-    document.querySelector("#form #select").disabled = true;
-    document.querySelector("#form #send").disabled = false;
-    document.querySelector("#form #send").value = "Enviar imagem";
-    document.querySelector("#form #send").onclick = function(){
-        let quality = document.querySelector("#form #quality").value;
-        let algo = document.querySelector("#form #algo").value;
-
-        pywebview.api.send_image(quality, algo);
-        document.querySelector("#form #send").value = "Processar";
-        document.querySelector("#form #send").onclick = process_file;
-        document.querySelector("#form #select").disabled = false;
-    }
-}
-
 function clear_images() {
     var rows = document.querySelectorAll("#table tr.image-data");
     for (var i = 0; i < rows.length; i++) {
@@ -163,7 +148,26 @@ function open_file_dialog() {
 }
 
 function process_file() {
+    document.querySelector("#main #send").disabled = true;
     pywebview.api.process_file();
+}
+
+function process_done(){
+    document.querySelector("#form #select").disabled = true; // disable the file select
+    document.querySelector("#form #send").disabled = false; // enable the send button
+
+    document.querySelector("#form #send").value = "Enviar imagem";
+    document.querySelector("#form #send").onclick = send_file;
+}
+
+function send_file() {
+    let quality = document.querySelector("#form #quality").value;
+    let algo = document.querySelector("#form #algo").value;
+
+    pywebview.api.send_image(quality, algo);
+    document.querySelector("#form #send").value = "Processar";
+    document.querySelector("#form #send").onclick = process_file;
+    document.querySelector("#form #select").disabled = false;
 }
 
 function refresh_images() {
