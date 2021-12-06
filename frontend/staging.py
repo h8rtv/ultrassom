@@ -27,6 +27,8 @@ class Staging():
         self.selected_filepath = file
         if file:
             self.window.evaluate_js('can_send()')
+        else:
+            self.window.evaluate_js('cannot_send()')
 
     def process_file(self):
         try:

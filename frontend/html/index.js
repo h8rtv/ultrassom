@@ -156,6 +156,10 @@ function can_send(){
     document.querySelector("#form #send").disabled = false; // enable the send button
 }
 
+function cannot_send(){
+    document.querySelector("#form #send").disabled = true; // disable the send button
+}
+
 function process_done(){
     document.querySelector("#form #select").disabled = true; // disable the file select
     document.querySelector("#form #send").disabled = false; // enable the send button
