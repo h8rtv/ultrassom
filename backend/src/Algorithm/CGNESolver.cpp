@@ -26,7 +26,7 @@ std::pair<Eigen::VectorXd, uint> CGNESolver::solve(const Eigen::VectorXd& g) {
   }
 
   if (i >= config.maxIterations) {
-    i = config.maxIterations;
+    i = config.maxIterations - 1;
   }
 
   return { f, i + 1 };
