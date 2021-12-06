@@ -15,10 +15,10 @@ std::pair<Eigen::VectorXd, uint> CGNRSolver::solve(const Eigen::VectorXd& g) {
     auto w = H * p;
     double z_norm = std::pow(z.norm(), 2);
     double alpha =  z_norm / std::pow(w.norm(), 2);
+    f = f + alpha * p;
     r = r - alpha * w;
     double error = std::abs(r.norm() - r_old_norm);
     if (error < config.maxError) break;
-    f = f + alpha * p;
     z = Ht * r;
     double beta = std::pow(z.norm(), 2) / z_norm;
     p = z + beta * p;

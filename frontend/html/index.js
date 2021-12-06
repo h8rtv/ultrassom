@@ -152,6 +152,10 @@ function process_file() {
     pywebview.api.process_file();
 }
 
+function can_send(){
+    document.querySelector("#form #send").disabled = false; // enable the send button
+}
+
 function process_done(){
     document.querySelector("#form #select").disabled = true; // disable the file select
     document.querySelector("#form #send").disabled = false; // enable the send button

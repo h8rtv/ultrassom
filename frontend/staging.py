@@ -25,6 +25,8 @@ class Staging():
         file = self.window.create_file_dialog(webview.OPEN_DIALOG, allow_multiple=False, file_types=file_types)
         file = file[0] if file else None
         self.selected_filepath = file
+        if file:
+            self.window.evaluate_js('can_send()')
 
     def process_file(self):
         try:
@@ -58,7 +60,7 @@ class Staging():
             }
 
             # convert array to string with \n separators
-            image_str = '\n'.join(map(str, self.current_array.flatten()))
+            image_str = '\n'.join(map(str, self.current_array))
 
             image_id = self.api.send_image(body, image_str)
 

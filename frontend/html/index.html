@@ -30,7 +30,7 @@
         <div class="main logged">
             <div id="form">
                 <input class="button account" type="button" id="select" value="Selecionar arquivo" onclick="open_file_dialog()" />
-                <input class="button account" type="button" id="send" value="Processar" onclick="process_file()" />
+                <input class="button account" type="button" id="send" value="Processar" onclick="process_file()" disabled />
 
                 <label for="quality">Qualidade desejada:</label>
                 <select name="quality" id="quality">
@@ -41,8 +41,8 @@
 
                 <label for="algo">Algoritmo:</label>
                 <select name="algo" id="algo">
-                    <option value="CGNE">CGNE</option>
                     <option value="CGNR">CGNR</option>
+                    <option value="CGNE">CGNE</option>
                 </select>
             </div>
 
