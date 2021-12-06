@@ -25,5 +25,9 @@ std::pair<Eigen::VectorXd, uint> CGNESolver::solve(const Eigen::VectorXd& g) {
     r_old_norm = r.norm();
   }
 
+  if (i >= config.maxIterations) {
+    i = config.maxIterations;
+  }
+
   return { f, i + 1 };
 }

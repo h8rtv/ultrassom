@@ -78,7 +78,7 @@ public:
     image->end_date = end.c_str();
     image->data = filename.c_str();
     image->time = time;
-    image->iterations = time;
+    image->iterations = iterations;
 
     eventEmitter->emit(EventType::FINISH_PROCESSING, image);
   };
