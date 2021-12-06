@@ -21,6 +21,11 @@ function on_file_selected(filename) {
     document.querySelector("#form #filename").style.display = "inline-block";
     document.querySelector("#form #filename").innerHTML = filename;
 }
+function file_read_error() {
+    document.querySelector("#form #process").disabled = true;
+    document.querySelector("#form #submit").disabled = true;
+    window.alert("Erro ao ler arquivo");
+}
 // ========================== OPEN FILE SELECT DIALOG
 
 

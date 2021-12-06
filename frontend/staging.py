@@ -26,12 +26,13 @@ class Staging():
         file = file[0] if file else None
         self.selected_filepath = file
 
-        if file:
-            filename = file.split('/')[-1] if file else None
+        if not file:
+            return
+
+        try:
+            filename = file.split('/')[-1]
             self.window.evaluate_js(f'on_file_selected("{filename}")')
 
-    def process_file(self):
-        try:
             file_contents = self.processing.read_file(self.selected_filepath)
             file_contents = file_contents.split('\n')
 
@@ -42,9 +43,13 @@ class Staging():
                     lines.append(line)
 
             self.current_array = self.processing.lines_to_array(lines)
-            self.current_array = self.processing.signal_gain(self.current_array)
+        except Exception as e:
+            print('Error reading file:', e)
+            self.window.evaluate_js('file_read_error()')
 
-            # Notify webview that we're done
+    def process_file(self):
+        try:
+            self.current_array = self.processing.signal_gain(self.current_array)
             self.window.evaluate_js('process_done()')
         except Exception as e:
             print('Error processing file:', e)
