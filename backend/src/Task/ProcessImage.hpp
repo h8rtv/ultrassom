@@ -28,6 +28,13 @@ private:
     return filename;
   }
 
+  void normalize_data(Eigen::VectorXd& f, std::pair<double, double> range = {0.f, 1.f}) {
+    auto [a, b] = range;
+    double min = f.minCoeff();
+    double max = f.maxCoeff();
+    f = a + (f.array() - min) * ((b - a) / (max - min));
+  }
+
 public:
   ProcessImage(
     oatpp::Object<Image> image,
@@ -62,6 +69,7 @@ public:
     eventEmitter->emit(EventType::START_PROCESSING, image);
 
     auto [f, iterations] = solver->solve(g);
+    normalize_data(f);
 
     auto [time, end] = finish();
     OATPP_LOGI("ProcessImage", "Time: %f", time);
