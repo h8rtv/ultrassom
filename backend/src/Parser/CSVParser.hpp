@@ -1,12 +1,18 @@
 #pragma once
 
 #include <algorithm>
-#include <execution>
+#include <tbb/parallel_for_each.h>
 #include <string_view>
 
 #include <Eigen/Dense>
 
 #include "IParser.hpp"
+
+struct CSVParserException : public std::exception {
+	const char* what() const throw () {
+    return "Failed to parse CSV file";
+  }
+};
 
 class CSVParser: public IParser<Eigen::MatrixXd> {
 private:
@@ -60,8 +66,7 @@ private:
   }
 
   void parallel_parse_lines(Eigen::MatrixXd& m, std::vector<std::pair<size_t, std::string_view>> indexed_lines) {
-    std::for_each(
-      std::execution::par_unseq,
+    tbb::parallel_for_each(
       std::begin(indexed_lines),
       std::end(indexed_lines),
       [&](std::pair<size_t, std::string_view> pair) {
@@ -77,13 +82,17 @@ public:
 
   [[nodiscard]]
   Eigen::MatrixXd parse() {
-    std::vector<std::string_view> lines = split_string(file_content, '\n');
-    size_t row = lines.size();
-    size_t col = get_column_count(lines[0]);
-    Eigen::MatrixXd m(row, col);
-    std::vector<std::pair<size_t, std::string_view>> indexed_lines = get_indexed_lines(lines);
-    parallel_parse_lines(m, indexed_lines);
+    try {
+      std::vector<std::string_view> lines = split_string(file_content, '\n');
+      size_t row = lines.size();
+      size_t col = get_column_count(lines[0]);
+      Eigen::MatrixXd m(row, col);
+      std::vector<std::pair<size_t, std::string_view>> indexed_lines = get_indexed_lines(lines);
+      parallel_parse_lines(m, indexed_lines);
 
-    return m;
+      return m;
+    } catch(...) {
+      throw CSVParserException();
+    };
   }
 };

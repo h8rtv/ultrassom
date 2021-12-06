@@ -19,7 +19,7 @@ private:
   std::shared_ptr<ProcessImageEmitter> eventEmitter;
   const ModelMatrix& modelMatrix;
   oatpp::Object<Image> image;
-  std::string data;
+  Eigen::VectorXd g;
 
   std::string persist_file(const Eigen::VectorXd& f) {
     std::string filename = Util::Uuid::generate_uuid_v4() + ".png";
@@ -38,11 +38,11 @@ private:
 public:
   ProcessImage(
     oatpp::Object<Image> image,
-    std::string data,
+    Eigen::VectorXd g,
     const ModelMatrix& modelMatrix,
     std::shared_ptr<ProcessImageEmitter> eventEmitter) 
   : image(image),
-    data(data),
+    g(g),
     modelMatrix(modelMatrix),
     eventEmitter(eventEmitter)
   {};
@@ -62,7 +62,6 @@ public:
 
   void operator()() {
     auto solver = create_solver();
-    Eigen::VectorXd g = CSVParser(data).parse();
     auto [start, finish] = Util::Time::time_it();
 
     image->start_date = start.c_str();

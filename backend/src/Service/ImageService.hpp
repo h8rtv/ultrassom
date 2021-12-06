@@ -49,11 +49,21 @@ public:
   oatpp::Object<Image> processSignal(v_int32 id, std::string data) {
     auto image = getImageById(id);
     auto client = clientsListener->getClient(image->user);
+    try {
+      Eigen::VectorXd g = CSVParser(data).parse();
+      auto eventEmitter = std::make_shared<ProcessImageEmitter>(client, imageDb);
+      auto task = ProcessImage{image, g, *modelMatrix, eventEmitter};
+      scheduler->schedule(task);
+      return image;
+    } catch (const std::exception& e) {
+      imageDb->deleteImageById(id);
+      OATPP_ASSERT_HTTP(false, Status::CODE_500, e.what());
+    }
+  }
 
-    auto eventEmitter = std::make_shared<ProcessImageEmitter>(client, imageDb);
-    auto task = ProcessImage{image, data, *modelMatrix, eventEmitter};
-    scheduler->schedule(task);
-    return image;
+  void deleteImageById(v_int32 userId) {
+    auto dbResult = imageDb->deleteImageById(userId);
+    OATPP_ASSERT_HTTP(dbResult->isSuccess(), Status::CODE_500, dbResult->getErrorMessage());
   }
 
   oatpp::Vector<oatpp::Object<Image>> getImagesByUser(v_int32 userId) {
