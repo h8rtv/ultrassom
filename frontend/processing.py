@@ -8,11 +8,11 @@ class Processing:
     def signal_gain(self, g):
         N = 64
         S = 794
-        g = np.reshape(g, (S, N))
+        g = np.reshape(g, (N, S))
         for c in range(0, N):
             for l in range(0, S):
                 y = 100 + (1 / 20) * l * np.sqrt(l)
-                g[l, c] = g[l, c] * y
+                g[c, l] = g[c, l] * y
         return g.flatten()
 
     # normalize array to 0-1
