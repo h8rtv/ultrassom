@@ -81,7 +81,7 @@ function reload_image(image_data) {
     td_img.innerHTML = "";
     var img = document.createElement("img");
     img.src = image_data["image_url"];
-    img.onclick = open_modal.bind(null, image["image_url"]);
+    img.onclick = open_modal.bind(null, image_data["image_url"]);
     td_img.appendChild(img);
 
     var td_start_date = trRoot.querySelector("td.start-date");

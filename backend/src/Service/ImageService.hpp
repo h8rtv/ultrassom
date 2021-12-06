@@ -47,17 +47,21 @@ public:
   }
 
   oatpp::Object<Image> processSignal(v_int32 id, std::string data) {
-    auto image = getImageById(id);
-    auto client = clientsListener->getClient(image->user);
     try {
+      auto image = getImageById(id);
+      auto client = clientsListener->getClient(image->user);
       Eigen::VectorXd g = CSVParser(data).parse();
+      OATPP_ASSERT_HTTP(g.cols() == 1 && g.rows() == 50816, Status::CODE_422, "Invalid vector size");
       auto eventEmitter = std::make_shared<ProcessImageEmitter>(client, imageDb);
       auto task = ProcessImage{image, g, *modelMatrix, eventEmitter};
       scheduler->schedule(task);
       return image;
+    } catch (const oatpp::web::protocol::http::HttpError& e) {
+      imageDb->deleteImageById(id);
+      throw oatpp::web::protocol::http::HttpError(e);
     } catch (const std::exception& e) {
       imageDb->deleteImageById(id);
-      OATPP_ASSERT_HTTP(false, Status::CODE_500, e.what());
+      throw oatpp::web::protocol::http::HttpError(Status::CODE_500, e.what());
     }
   }
 
