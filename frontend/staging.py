@@ -20,15 +20,15 @@ class Staging():
         self.processing = Processing()
 
     def open_file_dialog(self):
-        file_types = ('All files (*.*)',)
+        file_types = ('CSV and Text files (*.csv;*.txt)',)
 
         file = self.window.create_file_dialog(webview.OPEN_DIALOG, allow_multiple=False, file_types=file_types)
         file = file[0] if file else None
         self.selected_filepath = file
+
         if file:
-            self.window.evaluate_js('can_send()')
-        else:
-            self.window.evaluate_js('cannot_send()')
+            filename = file.split('/')[-1] if file else None
+            self.window.evaluate_js(f'on_file_selected("{filename}")')
 
     def process_file(self):
         try:
@@ -48,6 +48,7 @@ class Staging():
             self.window.evaluate_js('process_done()')
         except Exception as e:
             print('Error processing file:', e)
+            self.window.evaluate_js('process_error()')
 
     def send_image(self, quality_index, algo):
         try:
@@ -70,7 +71,6 @@ class Staging():
                 return
 
             print('Image sent with ID', image_id)
-
         except Exception as e:
             print('Error sending image:', e)
 

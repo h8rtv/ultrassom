@@ -79,7 +79,9 @@ class API():
 
             asyncio.get_event_loop().run_until_complete(run(self.BASE_URL, self.on_message))
 
-        Thread(target=run_thread, args=(self,)).start()
+        self.WST = Thread(target=run_thread, args=(self,))
+        self.WST.daemon = True
+        self.WST.start()
 
     def on_message(self, message):
         content = json.loads(message)

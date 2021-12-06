@@ -138,3 +138,12 @@ input[disabled]{
 .button:active {
   filter:brightness(0.5);
 }
+
+td.image img {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+td.image img:hover {
+  filter:brightness(0.8);
+}

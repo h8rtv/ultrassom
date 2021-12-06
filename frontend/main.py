@@ -27,13 +27,17 @@ except ImportError:
   exit(1)
 
 from staging import Staging
+import signal
+import sys
+
+def signal_handler_int(sig, frame):
+    # Ctrl C was pressed
+    sys.exit(0)
 
 def echo(arg1):
   print(arg1)
 
 def start_window(window):
-  window.evaluate_js('pywebview.api.echo(1)')
-
   staging = Staging(window=window)
   window.expose(staging.process_file)
   window.expose(staging.open_file_dialog)
@@ -42,6 +46,8 @@ def start_window(window):
   window.expose(staging.login)
 
 if __name__ == '__main__':
+  signal.signal(signal.SIGINT, signal_handler_int)
+
   window = webview.create_window('Ultrassom', './html/index.html')
   window.expose(echo)
 

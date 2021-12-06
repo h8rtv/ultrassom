@@ -1,15 +1,3 @@
-function handleLogin() {
-    var username = document.querySelector("#username").value;
-    pywebview.api.login(username).then(function(data) {
-        if (data == true) {
-            document.querySelector("#login").style.display = "none";
-            document.querySelector("#main").style.display = "block";
-            document.querySelector("#user").style.display = "block";
-            document.querySelector("#user").innerHTML = username;
-        }
-    });
-}
-
 function clear_images() {
     var rows = document.querySelectorAll("#table tr.image-data");
     for (var i = 0; i < rows.length; i++) {
@@ -75,6 +63,7 @@ function create_images(data) {
         if (image["image_url"] != null) {
             var img = document.createElement("img");
             img.src = image["image_url"];
+            img.onclick = open_modal.bind(null, image["image_url"]);
             td_img.appendChild(img);
         } else {
             td_img.innerHTML = "Processando...";
@@ -92,6 +81,7 @@ function reload_image(image_data) {
     td_img.innerHTML = "";
     var img = document.createElement("img");
     img.src = image_data["image_url"];
+    img.onclick = open_modal.bind(null, image["image_url"]);
     td_img.appendChild(img);
 
     var td_start_date = trRoot.querySelector("td.start-date");
@@ -115,6 +105,16 @@ function reload_image(image_data) {
         td_reconstruction_time.innerHTML = formatSeconds(image_data["time"]);
 }
 
+function open_modal(image_url) {
+    document.querySelector("#image-modal").style.display = "block";
+    document.querySelector("#image-modal-content").src = image_url;
+}
+
+function close_modal() {
+    document.querySelector("#image-modal").style.display = "none";
+    document.querySelector("#image-modal-content").src = "";
+}
+
 function getQualityString(quality) {
     if (quality == 0) {
         return "Baixa";
@@ -130,9 +130,10 @@ function getQualityString(quality) {
 function formatSeconds(seconds) {
     // remove everything after the decimal point
     var s = seconds.toString();
-    var i = s.indexOf(".");
+    var i = s.indexOf("."); // find the decimal point
+    var l = (i + 4 > s.length) ? s.length : i + 4; // 3 decimal places
     if (i != -1)
-        s = s.substring(0, i);
+        s = s.substring(0, l);
 
     s += " s";
 
@@ -141,48 +142,4 @@ function formatSeconds(seconds) {
 
 function formatDate(date) {
     return new Date(date).toLocaleString();
-}
-
-function open_file_dialog() {
-    pywebview.api.open_file_dialog();
-}
-
-function process_file() {
-    document.querySelector("#main #send").disabled = true;
-    pywebview.api.process_file();
-}
-
-function can_send(){
-    document.querySelector("#form #send").disabled = false; // enable the send button
-}
-
-function cannot_send(){
-    document.querySelector("#form #send").disabled = true; // disable the send button
-}
-
-function process_done(){
-    document.querySelector("#form #select").disabled = true; // disable the file select
-    document.querySelector("#form #send").disabled = false; // enable the send button
-
-    document.querySelector("#form #send").value = "Enviar imagem";
-    document.querySelector("#form #send").onclick = send_file;
-}
-
-function send_file() {
-    let quality = document.querySelector("#form #quality").value;
-    let algo = document.querySelector("#form #algo").value;
-
-    pywebview.api.send_image(quality, algo);
-    document.querySelector("#form #send").value = "Processar";
-    document.querySelector("#form #send").onclick = process_file;
-    document.querySelector("#form #select").disabled = false;
-}
-
-function refresh_images() {
-    pywebview.api.refresh_images();
-    document.querySelector("#main .refresh").disabled = true;
-}
-
-function refresh_images_done() {
-    document.querySelector("#main .refresh").disabled = false;
 }

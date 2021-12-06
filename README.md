@@ -49,12 +49,12 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
  - [x] Se o sinal for cagado, ele dá erro de parser e fecha o programa todo
 
 # TODO FRONT
- - [ ] Ter forma de fazer o upload sem ganho de sinal
- - [ ] Listar imagem arquivo atual selecionado
- - [ ] Mostrar segundos com informação do ms
- - [ ] Error handling as vezes suja muito o terminal (principalmente web sockets)
+ - [x] Ter forma de fazer o upload sem ganho de sinal
+ - [x] Listar imagem arquivo atual selecionado
+ - [x] Mostrar segundos com informação do ms
+ - [x] Error handling as vezes suja muito o terminal (principalmente web sockets)
  - [ ] Ajustar a formatação das telas (testar tela com poucos e muitos items)
- - [ ] Detalhamento da imagem que permita zoom para melhor visualização
+ - [x] Detalhamento da imagem que permita zoom para melhor visualização
 
 ## API
 A documentação para API REST pode ser encontrada em [docs/API.md](docs/API.md)
