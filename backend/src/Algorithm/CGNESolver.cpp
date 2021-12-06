@@ -9,7 +9,11 @@ std::pair<Eigen::VectorXd, uint> CGNESolver::solve(const Eigen::VectorXd& g) {
   Eigen::VectorXd f = Eigen::VectorXd::Zero(H.cols());
   Eigen::VectorXd r = g - H * f;
   Eigen::VectorXd p = Ht * r;
+
+  Eigen::VectorXd out = f;
+  double best_error = std::numeric_limits<double>::max();
   double r_old_norm = r.norm();
+
   for (i = 0; i < config.maxIterations; i++) {
     double alpha_num = r.transpose() * r;
     double alpha_den = p.transpose() * p;
@@ -17,6 +21,10 @@ std::pair<Eigen::VectorXd, uint> CGNESolver::solve(const Eigen::VectorXd& g) {
     f = f + alpha * p;
     r = r - alpha * H * p;
     double error = std::abs(r.norm() - r_old_norm);
+    if (error < best_error) {
+      best_error = error;
+      out = f;
+    }
     if (error < config.maxError) break;
     double beta_num = r.transpose() * r;
     const double& beta_den = alpha_num;
@@ -29,5 +37,5 @@ std::pair<Eigen::VectorXd, uint> CGNESolver::solve(const Eigen::VectorXd& g) {
     i = config.maxIterations - 1;
   }
 
-  return { f, i + 1 };
+  return { out, i + 1 };
 }

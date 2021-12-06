@@ -10,7 +10,11 @@ std::pair<Eigen::VectorXd, uint> CGNRSolver::solve(const Eigen::VectorXd& g) {
   Eigen::VectorXd r = g - H * f;
   Eigen::VectorXd z = Ht * r;
   Eigen::VectorXd p = z;
+
+  Eigen::VectorXd out = f;
+  double best_error = std::numeric_limits<double>::max();
   double r_old_norm = r.norm();
+
   for (i = 0; i < config.maxIterations; i++) {
     auto w = H * p;
     double z_norm = std::pow(z.norm(), 2);
@@ -18,6 +22,10 @@ std::pair<Eigen::VectorXd, uint> CGNRSolver::solve(const Eigen::VectorXd& g) {
     f = f + alpha * p;
     r = r - alpha * w;
     double error = std::abs(r.norm() - r_old_norm);
+    if (error < best_error) {
+      best_error = error;
+      out = f;
+    }
     if (error < config.maxError) break;
     z = Ht * r;
     double beta = std::pow(z.norm(), 2) / z_norm;
@@ -29,5 +37,5 @@ std::pair<Eigen::VectorXd, uint> CGNRSolver::solve(const Eigen::VectorXd& g) {
     i = config.maxIterations - 1;
   }
 
-  return { f, i + 1 };
+  return { out, i + 1 };
 }
