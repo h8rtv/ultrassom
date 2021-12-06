@@ -51,4 +51,4 @@ if __name__ == '__main__':
   window = webview.create_window('Ultrassom', './html/index.html')
   window.expose(echo)
 
-  webview.start(start_window, window, debug=True)
+  webview.start(start_window, window, debug=False)

@@ -72,10 +72,14 @@ class API():
             async def run(BASE_URL, on_message):
                 WS_BASE_URL = BASE_URL.replace('http', 'ws')
                 WS_URL = f'{WS_BASE_URL}/users/{user_id}/ws'
-                WS = await websockets.connect(WS_URL)
-                while True:
-                    message = await WS.recv()
-                    on_message(message)
+                try:
+                    WS = await websockets.connect(WS_URL)
+                    while True:
+                        message = await WS.recv()
+                        on_message(message)
+                except Exception as e:
+                    print('Error while connecting to websocket:', e)
+                    return
 
             asyncio.get_event_loop().run_until_complete(run(self.BASE_URL, self.on_message))
 
