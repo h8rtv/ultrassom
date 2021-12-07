@@ -14,51 +14,53 @@
 </head>
 
 <body onload="onLoad();">
+
     <div class="title">
         <h1>Ultrassom</h1>
-        <h3 id="user" style="display: none;">Username</h3>
     </div>
-
     <div class="page" id="login">
-        <div class="main">
-        </div>
-        <div class="auth-info" id="login-form">
-            <h2 class="login-text">Login</h2>
-            <input type="text" id="username" placeholder="Username" required>
-            <input class="button" type="button" value="Login" onclick="handleLogin()">
+        <div class="container main">
+            <div class="auth-info" id="login-form">
+                <h2 class="login-text">Login</h2>
+                <input type="text" id="username" placeholder="Username" required>
+                <input class="button login" type="button" value="Login" onclick="handleLogin()">
+            </div>
         </div>
     </div>
 
     <div class="page" id="main">
-
-        <div class="main logged">
-            <div id="form">
-                <input class="button account" type="button" id="select" value="Selecionar arquivo" onclick="open_file_dialog()" />
-                <input class="button account" type="button" id="process" value="Realizar ganho de sinal" onclick="process_file()" disabled />
-                <input class="button account" type="button" id="submit" value="Enviar" onclick="send_file()" disabled />
-
-                <span id="filename" style="display: none;"></span>
-
-                <label for="quality">Qualidade desejada:</label>
-                <select name="quality" id="quality" >
+        <div class="name">
+            <h3 id="user" style="display: none;">Username</h3>
+        </div>
+        <div id="form">
+            <div class="container select">
+                <input class="select-btn" type="button" id="select" value="Selecionar arquivo"
+                    onclick="open_file_dialog()" />
+                <span class="text" id="filename" style="display: none;"></span>
+            </div>
+            <div class="container quality-algorithm">
+                <label class="text quality-txt" for="quality">Qualidade desejada:</label>
+                <select class="button quality" name="quality" id="quality">
                     <option value="0" selected>Baixa</option>
                     <option value="1">Média</option>
                     <option value="2">Alta</option>
                 </select>
-
-                <label for="algo">Algoritmo:</label>
-                <select name="algo" id="algo">
+                <label class="text algorithm-txt" for="algo">Algoritmo:</label>
+                <select class="button algorithm" name="algo" id="algo">
                     <option value="CGNR" selected>CGNR</option>
                     <option value="CGNE">CGNE</option>
                 </select>
             </div>
-
-            <div>
-                <button class="button account refresh" id="refresh" onclick="refresh_images();">Atualizar imagens</button>
+            <div class="container signal-send">
+                <input class="button signal" type="button" id="process" value="Realizar ganho de sinal"
+                    onclick="process_file()" disabled />
+                <button class="button refresh" id="refresh" onclick="refresh_images();">Atualizar imagens</button>
+                <input class="button send" type="button" id="submit" value="Enviar" onclick="send_file()" disabled />
             </div>
+
         </div>
 
-        <div id="result">
+        <div class="table" id="result">
             <!-- Manipulated by JavaScript -->
             <table class="styled-table" id="table">
                 <tr>
@@ -76,7 +78,7 @@
         </div>
     </div>
 
-    <div id="image-modal"  onclick="close_modal()" >
+    <div id="image-modal" onclick="close_modal()">
         <!-- The Close Button -->
         <span class="close">&times;</span>
 

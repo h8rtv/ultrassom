@@ -1,17 +1,17 @@
 :root {
   --first: #c4c4c4;
   --second: #14171A;
-  --second-transparency: rgba(20, 23, 26, 0.8);
+  --second-transparency: rgba(45, 48, 51, 0.8);
   --third: #404040	;
   --fourth: #303030;
 }
 * + * {
-  margin-top: 1.5em;
+  margin-top: .5em;
 }
 
 html {
   box-sizing: border-box;
-  font-size: calc(60% + 0.8vmin);
+  font-size: calc(60% + .8vmin);
 }
 
 *, *::before, *::after {
@@ -26,25 +26,171 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: grid;
-  height: 100vh;
-  margin: 0;
   place-items: center center;
-  line-height: 1.5;
+  line-height: .5;
+}
+
+.title {
+  margin: auto;
+  text-align: center;
+  margin-top: -1rem;
+}
+
+.container {
+  display: flex;
+  position: relative ;
+  justify-content: center;
+  text-align: center center;
+  background: var(--second-transparency);
+  border-radius: 10px;
+}
+
+.main {
+  margin-top: 10rem;
+  width: 30rem;
+  height: 12rem;
+}
+
+.auth-info {
+  position: absolute;
+  text-align: center;
+}
+
+.login-text {
+  margin-bottom: 4rem;
+}
+
+.name {
+  display: flex;
+  justify-content: center;
+  height: 4rem;
+  width: 10rem;
+  margin: auto;
+  overflow-x: scroll;
+  margin-bottom: 5rem;
+}
+
+.select {
+  position: absolute;
+  width: 16rem;
+  height: 4rem;
+  margin-left: 8rem;
+}
+
+.quality-algorithm {
+  width: 28rem;
+  height: 4rem;
+  margin-top: -8vh;
+  margin-left: 28rem;
+  margin-right: 8rem;
+}
+
+.signal-send{
+  width: 48rem;
+  height: 4rem;
+  margin-left: 8rem;
+}
+
+.button {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--second);
+  font-size: 12px;
+  padding: 8px;
+  border: none;
+  width: 150px;
+  border-radius: 10px;
+  margin-left: 2vw;
+}
+
+.login {
+  max-width: 50px;
+  position: relative;
+  margin: auto;
+}
+
+.select-btn {
+  position: relative;
+  margin: auto;
+}
+
+.quality {
+  max-width: 80px;
+  position: relative;
+  margin: auto;
+}
+
+.algorithm {
+  max-width: 80px;
+  position: relative;
+  margin: auto;
+}
+
+.signal {
+  position: relative;
+  margin: auto;
+}
+
+.send {
+  position: relative;
+  margin: auto;
+}
+
+.refresh {
+  position: relative;
+  margin: auto;
+}
+
+.text {
+  margin: auto;
+  font-size: 12px;
+  color: var(--second);
+}
+
+.quality-txt {
+  color: white;
+}
+
+.algorithm-txt {
+  color: white;
+}
+
+button:disabled,
+button[disabled],
+input:disabled,
+input[disabled]{
+  background-color: #fff;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+.button:hover {
+  filter:brightness(.8);
+}
+
+.button:active {
+  filter:brightness(.5);
+}
+
+.table {
+  display: grid;
+  max-height: 35rem;
+  overflow: scroll;
 }
 
 .styled-table {
   border-collapse: collapse;
-  margin: 25px 0;
   font-size: 0.9em;
   font-family: sans-serif;
-  min-width: 400px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-
+  min-width: 20rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .15);
 }
+
 .styled-table tr {
   color: #ffffff;
   text-align: left;
 }
+
 .styled-table tr th {
   background-color: var(--second);
   padding: 10px 20px;
@@ -71,79 +217,15 @@ body {
   color: #ff0000;
 }
 
-.title {
-  width: 100%;
-  text-align: center;
-  align-items: center;
-}
-
-.main {
-  display: flex;
-  width: 60vw;
-  height: 20vw;
-  justify-content: center;
-  background: var(--second-transparency);
-  opacity: 0.8;
-  border-radius: 10px;
-  margin-top:-30vh;
-}
-
-.auth-info {
-  text-align: center;
-  position: relative;
-  margin-top:-25vh;
-}
-
-.logged {
-  margin-left: 30vw;
-  height: 8vw;
-}
-
-.button {
-  display: inline-block;
-  text-decoration: none;
-  color: var(--second);
-  font-size: 12px;
-  padding: 8px;
-  border: none;
-  min-width: 50px;
-  border-radius: 10px;
-}
-
-button:disabled,
-button[disabled],
-input:disabled,
-input[disabled]{
-  background-color: #fff;
-  color: #666666;
-  cursor: not-allowed;
-}
-
-.account {
-  margin-left: 2vw;
-}
-
-.refresh {
-  margin-top: -3px;
-}
-
 .styled-table tr:hover{
-  filter:brightness(0.8);
-}
-
-.button:hover {
-  filter:brightness(0.8);
-}
-
-.button:active {
-  filter:brightness(0.5);
+  filter:brightness(.8);
 }
 
 td.image img {
   cursor: pointer;
-  transition: 0.2s;
+  transition: .2s;
 }
 
 td.image img:hover {
-  filter:brightness(0.8);
+  filter:brightness(.8);
 }
