@@ -48,7 +48,7 @@ def start_window(window):
 if __name__ == '__main__':
   signal.signal(signal.SIGINT, signal_handler_int)
 
-  window = webview.create_window('Ultrassom', './html/index.html')
+  window = webview.create_window('Ultrassom', './html/index.html', min_size=(1024, 800))
   window.expose(echo)
 
   webview.start(start_window, window, debug=False)
