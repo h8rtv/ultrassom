@@ -87,7 +87,7 @@ function create_images(data) {
         tr.appendChild(td_iterations);
 
         var td_quality = document.createElement("td");
-        td_quality.className = "quality";
+        td_quality.className = "qualityc";
         if (image["quality"] != null)
             td_quality.innerHTML = getQualityString(image["quality"]);
         tr.appendChild(td_quality);
@@ -133,7 +133,7 @@ function reload_image(image_data) {
     if (image_data["iterations"] != null)
         td_iterations.innerHTML = image_data["iterations"];
 
-    var td_quality = trRoot.querySelector("td.quality");
+    var td_quality = trRoot.querySelector("td.qualityc");
     if (image_data["quality"] != null)
         td_quality.innerHTML = getQualityString(image_data["quality"]);
 
