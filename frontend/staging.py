@@ -1,4 +1,5 @@
 import json
+import os
 from threading import Thread
 import webview
 
@@ -30,7 +31,7 @@ class Staging():
             return
 
         try:
-            filename = file.split('/')[-1]
+            filename = file.split(os.path.sep)[-1]
             self.window.evaluate_js(f'on_file_selected("{filename}")')
 
             file_contents = self.processing.read_file(self.selected_filepath)
