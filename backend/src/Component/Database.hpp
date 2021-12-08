@@ -1,5 +1,6 @@
 #pragma once
 
+#include <mutex>
 #include "Persistence/ImageDb.hpp"
 #include "Persistence/UserDb.hpp"
 
@@ -16,9 +17,16 @@ public:
 
     /* Create database-specific ConnectionPool */
     return oatpp::sqlite::ConnectionPool::createShared(connectionProvider,
-                                                       50 /* max-connections */,
-                                                       std::chrono::seconds(15) /* connection TTL */);
+                                                       2 /* max-connections */,
+                                                       std::chrono::seconds(5) /* connection TTL */);
 
+  }());
+
+  /**
+   * Create database lock component
+   */
+  OATPP_CREATE_COMPONENT(std::shared_ptr<std::mutex>, dbLock)([] {
+    return std::make_shared<std::mutex>();
   }());
 
   /**

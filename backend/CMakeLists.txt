@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-O3")
 
 add_definitions(
-  ## SQLite amalgamation
-  -DOATPP_SQLITE_AMALGAMATION=ON
   ## SQLite database file
   -DDATABASE_FILE="${CMAKE_CURRENT_SOURCE_DIR}/db.sqlite"
   ## Path to database migration scripts
