@@ -65,7 +65,9 @@
 ### [GET] /images/{id}
 - Request:
   - URL:
-    - `id`: String. UID da imagem retornada quando criada.
+    - `id`: String. filename da imagem retornada quando criada.
+  - QUERY:
+    - `download`: Bool. Opcional. Se "true", adiciona cabeçalho Content-Disposition: attachment na resposta.
 - Response:
   - Status: 200.
   - *Imagem em formato PNG*.
@@ -75,8 +77,6 @@
 - Request:
   - URL:
     - `id`: String. ID do usuário.
-  - QUERY:
-    - `download`: Bool. Opcional. Se "true", adiciona cabeçalho Content-Disposition: attachment na resposta.
 - Response:
   - Body:
     - Lista:
