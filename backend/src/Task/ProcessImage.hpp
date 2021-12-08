@@ -61,24 +61,31 @@ public:
   }
 
   void operator()() {
-    auto solver = create_solver();
-    auto [start, finish] = Util::Time::time_it();
+    try {
+      auto solver = create_solver();
+      auto [start, finish] = Util::Time::time_it();
 
-    image->start_date = start.c_str();
-    eventEmitter->emit(EventType::START_PROCESSING, image);
+      image->start_date = start.c_str();
+      image->status = ImageStatus::PROCESSING;
+      eventEmitter->emit(EventType::START_PROCESSING, image);
 
-    auto [f, iterations] = solver->solve(g);
-    normalize_data(f);
+      auto [f, iterations] = solver->solve(g);
+      normalize_data(f);
 
-    auto [time, end] = finish();
-    OATPP_LOGI("ProcessImage", "Time: %f", time);
+      auto [time, end] = finish();
+      OATPP_LOGI("ProcessImage", "Time: %f", time);
 
-    std::string filename = persist_file(f);
-    image->end_date = end.c_str();
-    image->data = filename.c_str();
-    image->time = time;
-    image->iterations = iterations;
+      std::string filename = persist_file(f);
+      image->end_date = end.c_str();
+      image->data = filename.c_str();
+      image->time = time;
+      image->iterations = iterations;
+      image->status = ImageStatus::FINISHED;
 
-    eventEmitter->emit(EventType::FINISH_PROCESSING, image);
+      eventEmitter->emit(EventType::FINISH_PROCESSING, image);
+    } catch(...) {
+      image->status = ImageStatus::FAILED;
+      eventEmitter->emit(EventType::FAILED_PROCESSING, image);
+    }
   };
 };

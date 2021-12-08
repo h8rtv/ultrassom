@@ -13,6 +13,8 @@ class API():
 
         self.start_processing = None
         self.finish_processing = None
+        self.failed_processing = None
+        self.enqueued = None
 
     # Send a POST request to /images
     def send_image(self, body: dict, image: str) -> int:
@@ -61,9 +63,11 @@ class API():
         return response.json()['id']
 
     # Create websocket connection with /users/:id/ws
-    def open_websocket(self, user_id: int, on_start_processing, on_finish_processing):
-        self.start_processing = on_start_processing
-        self.finish_processing = on_finish_processing
+    def open_websocket(self, user_id: int, callbacks: dict):
+        self.start_processing = callbacks['on_start_processing']
+        self.finish_processing = callbacks['on_finish_processing']
+        self.failed_processing = callbacks['on_failed_processing']
+        self.enqueued = callbacks['on_enqueued']
 
         def run_thread(self):
             loop = asyncio.new_event_loop()
@@ -73,7 +77,7 @@ class API():
                 WS_BASE_URL = BASE_URL.replace('http', 'ws')
                 WS_URL = f'{WS_BASE_URL}/users/{user_id}/ws'
                 try:
-                    WS = await websockets.connect(WS_URL)
+                    WS = await websockets.connect(WS_URL, ping_timeout=None)
                     while True:
                         message = await WS.recv()
                         on_message(message)
@@ -91,9 +95,33 @@ class API():
         content = json.loads(message)
         evt = content['type']
         data = content['image']
-        if evt == 'START_PROCESSING' and self.start_processing != None:
-            self.start_processing(data)
-        elif evt == 'FINISH_PROCESSING' and self.finish_processing != None:
-            if data["data"] != None:
-                data['image_url'] = f'{self.BASE_URL}/images/{data["data"]}'
-            self.finish_processing(data)
+
+        if data["data"] != None:
+            data['image_url'] = f'{self.BASE_URL}/images/{data["data"]}'
+
+        def handle_start_processing(self, data):
+            if self.start_processing != None:
+                self.start_processing(data)
+
+        def handle_finish_processing(self, data):
+            if self.finish_processing != None:
+                self.finish_processing(data)
+
+        def handle_failed_processing(self, data):
+            if self.failed_processing != None:
+                self.failed_processing(data)
+
+        def handle_enqueued(self, data):
+            if self.enqueued != None:
+                self.enqueued(data)
+
+        switch = {
+            'ENQUEUED': handle_enqueued,
+            'START_PROCESSING': handle_start_processing, 
+            'FINISH_PROCESSING': handle_finish_processing,
+            'FAILED_PROCESSING': handle_failed_processing,
+        }
+        case = switch.get(evt)
+
+        if (case != None):
+            case(self, data)

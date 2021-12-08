@@ -13,7 +13,7 @@ private:
   void update_image(const oatpp::Object<Image>& image) {
     try {
       auto dbResult = imageDb->updateImage(image);
-    } catch (const std::runtime_error e) {
+    } catch (const std::runtime_error& e) {
       OATPP_LOGE("ProcessImage", "DB Error: %s", e.what());
     }
   }

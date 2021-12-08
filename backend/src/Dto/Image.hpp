@@ -5,6 +5,13 @@
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
+ENUM(ImageStatus, v_int32,
+     VALUE(RECEIVED, 0),
+     VALUE(PROCESSING, 1),
+     VALUE(FINISHED, 2),
+     VALUE(FAILED, 3)
+)
+
 ENUM(Algorithm, v_int32,
      VALUE(CGNR, 0, "CGNR"),
      VALUE(CGNE, 1, "CGNE")
@@ -21,7 +28,8 @@ class Image : public oatpp::DTO {
 
   DTO_FIELD(Int32, id);
   DTO_FIELD(Enum<Algorithm>, algo) = Algorithm::CGNR;
-  DTO_FIELD(Enum<Quality>::AsNumber, quality) = Quality::MEDIUM;
+  DTO_FIELD(Enum<Quality>::AsNumber, quality) = Quality::LOW;
+  DTO_FIELD(Enum<ImageStatus>::AsNumber, status) = ImageStatus::RECEIVED;
   DTO_FIELD(String, start_date);
   DTO_FIELD(String, end_date);
   DTO_FIELD(String, data);

@@ -8,6 +8,7 @@ CREATE TABLE images (
   width               INTEGER,
   iterations          INTEGER,
   quality             INTEGER,
+  status              INTEGER,
   time                REAL,
   user                INTEGER NOT NULL,
   FOREIGN KEY(user)   REFERENCES users(id)

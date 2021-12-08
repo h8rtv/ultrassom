@@ -66,7 +66,6 @@ body {
   height: 4rem;
   width: 10rem;
   margin: auto;
-  overflow-x: scroll;
   margin-bottom: 5rem;
 }
 
@@ -175,7 +174,6 @@ input[disabled]{
 .table {
   display: grid;
   max-height: 35rem;
-  overflow: scroll;
 }
 
 .styled-table {
@@ -202,6 +200,7 @@ input[disabled]{
 
   text-align: center;
   border-bottom: 1px solid #dddddd;
+  height: 60px;
 }
 
 .styled-table tr:nth-of-type(even) {

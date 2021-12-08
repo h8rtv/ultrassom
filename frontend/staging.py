@@ -97,19 +97,25 @@ class Staging():
         self.user_id = result
         self.refresh_images()
 
-        self.api.open_websocket(self.user_id, self.on_start_processing, self.on_finish_processing)
+        callbacks = {
+            'on_start_processing': self.reload_image,
+            'on_finish_processing': self.reload_image,
+            'on_failed_processing': self.reload_image,
+            'on_enqueued': self.on_enqueued,
+        }
+        self.api.open_websocket(self.user_id, callbacks)
 
         print('Logged in as', username, 'with ID', self.user_id)
         return True
 
-    def on_start_processing(self, data: dict):
+    def reload_image(self, data: dict):
+        jsonStr = json.dumps(data)
+        self.window.evaluate_js(f'reload_image(\'{jsonStr}\')')
+
+    def on_enqueued(self, data: dict):
         jsonStr = [data]
         jsonStr = json.dumps(jsonStr)
         self.window.evaluate_js(f'create_images(\'{jsonStr}\')')
-
-    def on_finish_processing(self, data: dict):
-        jsonStr = json.dumps(data)
-        self.window.evaluate_js(f'reload_image(\'{jsonStr}\')')
 
     def get_images(self):
         try:

@@ -46,22 +46,30 @@ public:
     return result[0];
   }
 
+  Eigen::VectorXd parseSignal(std::string_view data) {
+    try {
+      Eigen::VectorXd g = CSVParser(data).parse();
+      OATPP_ASSERT_HTTP(g.cols() == 1 && g.rows() == 50816, Status::CODE_422, "Invalid vector size");
+      return g;
+    } catch (const CSVParserException& e) {
+      throw oatpp::web::protocol::http::HttpError(Status::CODE_500, e.what());
+    }
+  }
+
   oatpp::Object<Image> processSignal(v_int32 id, std::string data) {
     try {
       auto image = getImageById(id);
       auto client = clientsListener->getClient(image->user);
-      Eigen::VectorXd g = CSVParser(data).parse();
-      OATPP_ASSERT_HTTP(g.cols() == 1 && g.rows() == 50816, Status::CODE_422, "Invalid vector size");
+      Eigen::VectorXd g = parseSignal(data);
       auto eventEmitter = std::make_shared<ProcessImageEmitter>(client, imageDb);
       auto task = ProcessImage{image, g, *modelMatrix, eventEmitter};
       scheduler->schedule(task);
+      image->status = ImageStatus::RECEIVED;
+      eventEmitter->emit(EventType::ENQUEUED, image);
       return image;
     } catch (const oatpp::web::protocol::http::HttpError& e) {
       imageDb->deleteImageById(id);
       throw oatpp::web::protocol::http::HttpError(e);
-    } catch (const std::exception& e) {
-      imageDb->deleteImageById(id);
-      throw oatpp::web::protocol::http::HttpError(Status::CODE_500, e.what());
     }
   }
 

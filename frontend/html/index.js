@@ -5,6 +5,29 @@ function clear_images() {
     }
 }
 
+function set_image_inner_html(image, td_img) {
+    td_img.innerHTML = "";
+    switch (image["status"]) {
+        case 0:
+            td_img.innerHTML = "Na fila...";
+            break;
+        case 1:
+            td_img.innerHTML = "Processando...";
+            break;
+        case 2:
+            if (image["image_url"] != null) {
+                var img = document.createElement("img");
+                img.src = image["image_url"];
+                img.onclick = open_modal.bind(null, image["image_url"]);
+                td_img.appendChild(img);
+            }
+            break;
+        default:
+            td_img.innerHTML = "Falha ao processar";
+            break;
+    }
+}
+
 function create_images(data) {
     var json = JSON.parse(data);
 
@@ -59,16 +82,7 @@ function create_images(data) {
 
         var td_img = document.createElement("td");
         td_img.className = "image";
-
-        if (image["image_url"] != null) {
-            var img = document.createElement("img");
-            img.src = image["image_url"];
-            img.onclick = open_modal.bind(null, image["image_url"]);
-            td_img.appendChild(img);
-        } else {
-            td_img.innerHTML = "Processando...";
-        }
-
+        set_image_inner_html(image, td_img);
         tr.appendChild(td_img);
     }
 }
@@ -77,12 +91,9 @@ function reload_image(image_data) {
     var image_data = JSON.parse(image_data);
 
     var trRoot = document.querySelector("#image-" + image_data["id"]);
+
     var td_img = trRoot.querySelector("td.image");
-    td_img.innerHTML = "";
-    var img = document.createElement("img");
-    img.src = image_data["image_url"];
-    img.onclick = open_modal.bind(null, image_data["image_url"]);
-    td_img.appendChild(img);
+    set_image_inner_html(image_data, td_img);
 
     var td_start_date = trRoot.querySelector("td.start-date");
     if (image_data["start_date"] != null)

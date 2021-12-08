@@ -16,8 +16,8 @@ public:
 
     /* Create database-specific ConnectionPool */
     return oatpp::sqlite::ConnectionPool::createShared(connectionProvider,
-                                                       10 /* max-connections */,
-                                                       std::chrono::seconds(5) /* connection TTL */);
+                                                       50 /* max-connections */,
+                                                       std::chrono::seconds(15) /* connection TTL */);
 
   }());
 
