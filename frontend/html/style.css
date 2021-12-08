@@ -1,230 +1,250 @@
 :root {
-  --first: #c4c4c4;
-  --second: #14171A;
-  --second-transparency: rgba(45, 48, 51, 0.8);
-  --third: #404040	;
-  --fourth: #303030;
+	--bg: #1b1b1b;
+	--blocks: #464545;
+	--text: #ffffff;
+	--buttons: #f54703;
+	--buttons-disabled: #ca7c5d;
+	--rows-even: #2f2f2f;
 }
+
 * + * {
-  margin-top: .5em;
+	margin-top: .5em;
 }
 
 html {
-  box-sizing: border-box;
-  font-size: calc(60% + .8vmin);
+	box-sizing: border-box;
+	font-size: calc(60% + .8vmin);
 }
 
 *, *::before, *::after {
-  box-sizing: inherit;
+	box-sizing: inherit;
 }
 
 body {
-  background: var(--first);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+	background: var(--bg);
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  display: grid;
-  place-items: center center;
-  line-height: .5;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	display: grid;
+	place-items: center center;
+	line-height: .5;
 }
 
 .title {
-  margin: auto;
-  text-align: center;
-  margin-top: -1rem;
+	color: var(--text);
+	margin: auto;
+	text-align: center;
+	margin-top: -1rem;
 }
 
 .container {
-  display: flex;
-  position: relative ;
-  justify-content: center;
-  text-align: center center;
-  background: var(--second-transparency);
-  border-radius: 10px;
+	display: flex;
+	position: relative;
+	justify-content: center;
+	text-align: center center;
+	background: var(--blocks);
+	border-radius: 10px;
 }
 
 .main {
-  margin-top: 10rem;
-  width: 30rem;
-  height: 12rem;
+	margin-top: 6rem;
+	width: 30rem;
+	height: 12rem;
 }
 
 .auth-info {
-  position: absolute;
-  text-align: center;
+	position: absolute;
+	text-align: center;
 }
 
 .login-text {
-  margin-bottom: 4rem;
+	color: var(--text);
+	margin-top: 2rem;
+	margin-bottom: 2rem;
 }
 
 .name {
-  display: flex;
-  justify-content: center;
-  height: 4rem;
-  width: 10rem;
-  margin: auto;
-  margin-bottom: 5rem;
+	color: var(--text);
+	display: flex;
+	justify-content: center;
+	height: 4rem;
+	width: 10rem;
+	margin: auto;
+	overflow-x: scroll;
+	margin-bottom: 5rem;
 }
 
 .select {
-  position: absolute;
-  width: 16rem;
-  height: 4rem;
-  margin-left: 8rem;
+	position: absolute;
+	width: 16rem;
+	height: 4rem;
+	margin-left: 8rem;
 }
 
 .quality-algorithm {
-  width: 28rem;
-  height: 4rem;
-  margin-top: -8vh;
-  margin-left: 28rem;
-  margin-right: 8rem;
+	width: 28rem;
+	height: 4rem;
+	margin-top: -8vh;
+	margin-left: 28rem;
+	margin-right: 8rem;
 }
 
-.signal-send{
-  width: 48rem;
-  height: 4rem;
-  margin-left: 8rem;
+.signal-send {
+	width: 48rem;
+	height: 4rem;
+	margin-left: 8rem;
 }
 
 .button {
-  display: inline-block;
-  text-decoration: none;
-  color: var(--second);
-  font-size: 12px;
-  padding: 8px;
-  border: none;
-  width: 150px;
-  border-radius: 10px;
-  margin-left: 2vw;
+	display: inline-block;
+	text-decoration: none;
+	color: var(--text);
+	background-color: var(--buttons);
+	font-size: 12px;
+	padding: 8px;
+	border: none;
+	width: 150px;
+	border-radius: 10px;
+	margin-left: 2vw;
 }
 
 .login {
-  max-width: 50px;
-  position: relative;
-  margin: auto;
+	max-width: 50px;
+	position: relative;
+	margin: auto;
 }
 
 .select-btn {
-  position: relative;
-  margin: auto;
+	background-color: var(--buttons);
+	color: var(--text);
+	border: none;
+	position: relative;
+	margin: auto;
+	border-radius: 5px;
 }
 
 .quality {
-  max-width: 80px;
-  position: relative;
-  margin: auto;
+	color: var(--bg);
+	max-width: 80px;
+	position: relative;
+	margin: auto;
 }
 
 .algorithm {
-  max-width: 80px;
-  position: relative;
-  margin: auto;
+	color: var(--bg);
+	max-width: 80px;
+	position: relative;
+	margin: auto;
 }
 
 .signal {
-  position: relative;
-  margin: auto;
+	position: relative;
+	margin: auto;
 }
 
 .send {
-  position: relative;
-  margin: auto;
+	position: relative;
+	margin: auto;
 }
 
 .refresh {
-  position: relative;
-  margin: auto;
+	position: relative;
+	margin: auto;
 }
 
 .text {
-  margin: auto;
-  font-size: 12px;
-  color: var(--second);
+	margin: auto;
+	font-size: 12px;
+	color: var(--text);
 }
 
 .quality-txt {
-  color: white;
+	color: var(--text);
 }
 
 .algorithm-txt {
-  color: white;
+	color: var(--text);
+}
+
+select option {
+	background: var(--buttons);
+	color: var(--text);
 }
 
 button:disabled,
 button[disabled],
 input:disabled,
-input[disabled]{
-  background-color: #fff;
-  color: #666666;
-  cursor: not-allowed;
+input[disabled] {
+	background-color: var(--buttons-disabled);
+	color: var(--text);
+	cursor: not-allowed;
 }
 
 .button:hover {
-  filter:brightness(.8);
+	filter: brightness(.8);
 }
 
 .button:active {
-  filter:brightness(.5);
+	filter: brightness(.5);
 }
 
 .table {
-  display: grid;
-  max-height: 35rem;
+	display: grid;
+	max-height: 35rem;
+	overflow: scroll;
+	border: 1px solid var(--text);
+	border-radius: 5px;
 }
 
 .styled-table {
-  border-collapse: collapse;
-  font-size: 0.9em;
-  font-family: sans-serif;
-  min-width: 20rem;
-  box-shadow: 0 0 20px rgba(0, 0, 0, .15);
+	border-collapse: collapse;
+	font-size: 0.9em;
+	font-family: sans-serif;
+	min-width: 20rem;
 }
 
 .styled-table tr {
-  color: #ffffff;
-  text-align: left;
+	color: var(--text);
+	text-align: left;
+	height: 4rem;
 }
 
 .styled-table tr th {
-  background-color: var(--second);
-  padding: 10px 20px;
-  border-bottom: 2px solid #ffffff;
+	background-color: var(--bg);
+	padding: 10px 20px;
+	border-bottom: 2px solid var(--text);
 }
 
 .styled-table tr {
-  background-color: var(--third);
-
-  text-align: center;
-  border-bottom: 1px solid #dddddd;
-  height: 60px;
+	background-color: var(--blocks);
+	text-align: center;
+	border-bottom: 1px solid #dddddd;
 }
 
 .styled-table tr:nth-of-type(even) {
-  background-color: var(--fourth);
+	background-color: var(--rows-even);
 }
 
 .styled-table tr:last-of-type {
-  border-bottom: 2px solid #ff0000;
+	border-bottom: 2px solid #ff0000;
 }
 
 .styled-table tr.active-row {
-  font-weight: bold;
-  color: #ff0000;
+	font-weight: bold;
+	color: #ff0000;
 }
 
-.styled-table tr:hover{
-  filter:brightness(.8);
+.styled-table tr:hover {
+	filter: brightness(.8);
 }
 
 td.image img {
-  cursor: pointer;
-  transition: .2s;
+	cursor: pointer;
+	transition: .2s;
 }
 
 td.image img:hover {
-  filter:brightness(.8);
+	filter: brightness(.8);
 }
