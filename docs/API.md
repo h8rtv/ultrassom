@@ -73,6 +73,8 @@
 - Request:
   - URL:
     - `id`: String. ID do usuário.
+  - QUERY:
+    - `download`: Bool. Opcional. Se "true", adiciona cabeçalho Content-Disposition: attachment na resposta.
 - Response:
   - Body:
     - Lista:
