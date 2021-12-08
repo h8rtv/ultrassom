@@ -60,10 +60,12 @@ public:
     return createDtoResponse(Status::CODE_202, imageService->processSignal(image_id, body->std_str()));
   }
 
-  ENDPOINT("GET", "/images/*", getStaticImage,
+  ENDPOINT("GET", "/images/{filename}", getStaticImage,
+           QUERIES(QueryParams, queryParams),
+           PATH(String, filename, "filename"),
            REQUEST(std::shared_ptr<IncomingRequest>, request))
   {
-    auto filename = request->getPathTail();
+    bool download = queryParams.get("download") == "true";
     OATPP_ASSERT_HTTP(filename, Status::CODE_400, "Filename is empty");
 
     auto range = request->getHeader(Header::RANGE);
@@ -78,6 +80,10 @@ public:
     auto mimeType = staticFilesService->guessMimeType(filename);
     if (mimeType) {
       response->putHeader(Header::CONTENT_TYPE, mimeType);
+      if (download) {
+        oatpp::String contentDisposition = "attachment; filename=\"" + filename + "\"";
+        response->putHeader("Content-Disposition", contentDisposition);
+      }
     } else {
       OATPP_LOGD("Server", "Unknown Mime-Type. Header not set");
     }
