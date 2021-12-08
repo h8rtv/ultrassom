@@ -13,6 +13,7 @@
 
 ## Requisitar usuário
 ### [GET] /users/{id}
+- Request:
   - URL:
     - `id`: String. UID da imagem retornada quando criada.
 - Response:
@@ -21,6 +22,7 @@
     - `id`: Int. ID do usuário.
     - `name`: String. Nome do usuário.
 ### [GET] /users
+- Request:
   - QUERY:
     - `name`: String. Nome do usuário.
 - Response:
