@@ -122,10 +122,11 @@ body {
 	border: none;
 	position: relative;
 	margin: auto;
-	border-radius: 5px;
+	border-radius: 8px;
 }
 
 .quality {
+	background-color: var(--text);
 	color: var(--bg);
 	max-width: 80px;
 	position: relative;
@@ -133,6 +134,7 @@ body {
 }
 
 .algorithm {
+	background-color: var(--text);
 	color: var(--bg);
 	max-width: 80px;
 	position: relative;
@@ -164,12 +166,21 @@ body {
 	color: var(--text);
 }
 
-.algorithm-txt {
+.download-link {
+
+	max-width: 50px;
+	position: relative;
+	margin: auto;
+	text-decoration: none;
 	color: var(--text);
+	background-color: var(--buttons);
+	font-size: 12px;
+	padding: 8px;
+	border: none;
+	border-radius: 10px;
 }
 
-select option {
-	background: var(--buttons);
+.algorithm-txt {
 	color: var(--text);
 }
 
