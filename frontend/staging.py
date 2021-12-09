@@ -24,6 +24,7 @@ class Staging():
         image_name = image_url.split('/')[-1]
         file_types = ('PNG Image Files (*.png)',)
         filepath = self.window.create_file_dialog(webview.SAVE_DIALOG, save_filename=image_name, file_types=file_types)
+        filepath = ''.join(filepath)
         with open(filepath, 'wb') as handle:
             content = self.api.download_image(image_url)
             if content == -1:
