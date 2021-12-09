@@ -53,7 +53,7 @@ Adicionar no includePath do c_cpp_properties.json caso usar VSCode
  - [x] Listar imagem arquivo atual selecionado
  - [x] Mostrar segundos com informação do ms
  - [x] Error handling as vezes suja muito o terminal (principalmente web sockets)
- - [ ] Ajustar a formatação das telas (testar tela com poucos e muitos items)
+ - [x] Ajustar a formatação das telas (testar tela com poucos e muitos items)
  - [x] Detalhamento da imagem que permita zoom para melhor visualização
 
 ## API
