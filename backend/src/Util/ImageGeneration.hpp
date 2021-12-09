@@ -27,10 +27,10 @@ namespace Util::ImageGeneration {
     std::array<double, 3600> buffer;
 
     for (auto j = 0u; j < 60; j++) {
-        for (auto i = 0u; i < 60; i++) {
-          double pixel = image(60 * j + i);
-          buffer[60 * i + j] = pixel;
-        }
+      for (auto i = 0u; i < 60; i++) {
+        double pixel = image(60 * j + i);
+        buffer[60 * i + j] = pixel;
+      }
     }
     Magick::Blob blob;
     Magick::Image img{
