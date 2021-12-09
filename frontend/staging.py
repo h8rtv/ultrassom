@@ -22,7 +22,9 @@ class Staging():
 
     def save_image(self, image_url: str):
         image_name = image_url.split('/')[-1]
-        with open(image_name, 'wb') as handle:
+        file_types = ('PNG Image Files (*.png)',)
+        filepath = self.window.create_file_dialog(webview.SAVE_DIALOG, save_filename=image_name, file_types=file_types)
+        with open(filepath, 'wb') as handle:
             content = self.api.download_image(image_url)
             if content == -1:
                 self.window.evaluate_js(f'failed_download("{image_name}")')
