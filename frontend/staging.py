@@ -1,6 +1,5 @@
 import json
 import os
-from threading import Thread
 import webview
 
 from api import API
@@ -29,7 +28,7 @@ class Staging():
         content = self.api.download_image(image_url)
         if content == -1:
             self.window.evaluate_js(f'failed_download("{image_name}")')
-        else: 
+        else:
             with open(filepath, 'wb') as handle:
                 handle.write(content)
                 self.window.evaluate_js(f'success_download("{image_name}")')
