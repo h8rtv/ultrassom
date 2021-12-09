@@ -20,6 +20,16 @@ class Staging():
         self.api = API()
         self.processing = Processing()
 
+    def save_image(self, image_url: str):
+        image_name = image_url.split('/')[-1]
+        with open(image_name, 'wb') as handle:
+            content = self.api.download_image(image_url)
+            if content == -1:
+                self.window.evaluate_js(f'failed_download("{image_name}")')
+            else:
+                handle.write(content)
+                self.window.evaluate_js(f'success_download("{image_name}")')
+
     def open_file_dialog(self):
         file_types = ('CSV and Text files (*.csv;*.txt)',)
 

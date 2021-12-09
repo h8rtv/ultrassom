@@ -10,6 +10,14 @@ function handleLogin() {
     });
 }
 
+function success_download(filename) {
+    window.alert(`Imagem ${filename} salva com sucesso!`);
+}
+
+function failed_download(filename) {
+    window.alert(`Não foi possível baixar a imagem ${filename}.`);
+}
+
 // ========================== OPEN FILE SELECT DIALOG
 function open_file_dialog() {
     pywebview.api.open_file_dialog();
@@ -45,7 +53,7 @@ function process_error(){
     document.querySelector("#form #process").disabled = false;
     document.querySelector("#form #select").disabled = false;
     document.querySelector("#form #submit").disabled = false;
-    window.alert("Erro ao processar arquivo");
+    window.alert("Erro ao processar arquivo.");
 }
 // ========================== PROCESS FILE
 

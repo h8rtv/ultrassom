@@ -44,6 +44,7 @@ def start_window(window):
   window.expose(staging.send_image)
   window.expose(staging.refresh_images)
   window.expose(staging.login)
+  window.expose(staging.save_image)
 
 if __name__ == '__main__':
   signal.signal(signal.SIGINT, signal_handler_int)

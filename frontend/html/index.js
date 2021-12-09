@@ -33,10 +33,12 @@ function set_download_inner_html(image, td_download) {
     switch (image["status"]) {
         case 2:
             if (image["image_url"] != null) {
-                var link = document.createElement("a");
+                var link = document.createElement("button");
                 link.classList.add("download-link");
                 link.innerHTML = "Download";
-                link.href = image["image_url"] + "?download=true";
+                link.onclick = function() {
+                    pywebview.api.save_image(image["image_url"]);
+                }
                 td_download.appendChild(link);
             }
             break;

@@ -44,6 +44,15 @@ class API():
 
         return response
 
+    # Send a GET request to /images/:id to download an image
+    def download_image(self, image_url: str): 
+        response = requests.get(image_url)
+
+        if not response.ok:
+            return -1
+
+        return response.content
+
     # Send a POST request to /users to create a new user
     def create_user(self, name: str) -> int:
         response = requests.post(f'{self.BASE_URL}/users', json={'name': name})
